@@ -1,0 +1,223 @@
+This snapshot was automatically generated on
+Sun, 28 Feb 2016 22:56:39 +0000
+
+Version: 5.3.29
+Branch: HEAD
+Build: x64\Release_TS
+
+Built-in Extensions
+===========================
+Core
+bcmath
+calendar
+ctype
+date
+ereg
+filter
+ftp
+hash
+iconv
+json
+mcrypt
+SPL
+odbc
+pcre
+Reflection
+session
+standard
+mysqlnd
+tokenizer
+zip
+zlib
+libxml
+dom
+PDO
+Phar
+SimpleXML
+wddx
+xml
+xmlreader
+xmlwriter
+mhash
+
+
+Dependency information:
+Module: php_av.dll
+===========================
+	avcodec-57.dll
+	avformat-57.dll
+	avutil-55.dll
+	swscale-4.dll
+	swresample-2.dll
+
+Module: php_couchbase.dll
+===========================
+	libcouchbase.dll
+
+Module: php_curl.dll
+===========================
+	libeay32.dll
+	ssleay32.dll
+	normaliz.dll
+
+Module: php_enchant.dll
+===========================
+	libenchant.dll
+
+Module: php_excel.dll
+===========================
+	libxl.dll
+
+Module: php_ffmpeg.dll
+===========================
+	avcodec-52.dll
+	avformat-52.dll
+	avutil-50.dll
+	swscale-0.dll
+
+Module: php_imagick.dll
+===========================
+	core_rl_wand_.dll
+	core_rl_magick_.dll
+
+Module: php_intl.dll
+===========================
+	icuuc56.dll
+	icuin56.dll
+
+Module: php_ldap.dll
+===========================
+	libsasl.dll
+	ssleay32.dll
+	libeay32.dll
+
+Module: php_leveldb.dll
+===========================
+	leveldb.dll
+
+Module: php_libsodium.dll
+===========================
+	libsodium.dll
+
+Module: php_mdbtools.dll
+===========================
+	glib-2.dll
+
+Module: php_oauth.dll
+===========================
+	libeay32.dll
+	ssleay32.dll
+	normaliz.dll
+
+Module: php_openssl.dll
+===========================
+	ssleay32.dll
+	libeay32.dll
+
+Module: php_pcsc.dll
+===========================
+	winscard.dll
+
+Module: php_pdflib.dll
+===========================
+	pdflib.dll
+
+Module: php_pgsql.dll
+===========================
+	libpq.dll
+
+Module: php_pspell.dll
+===========================
+	aspell-15.dll
+
+Module: php_pthreads.dll
+===========================
+	pthreadvc2.dll
+
+Module: php_snmp.dll
+===========================
+	libeay32.dll
+
+Module: php_sqlsrv.dll
+===========================
+	msvcp90.dll
+
+Module: php_ssdeep.dll
+===========================
+	libfuzzy-2.dll
+
+Module: php_ssh2.dll
+===========================
+	libeay32.dll
+
+Module: php_stomp.dll
+===========================
+	ssleay32.dll
+
+Module: php_svn.dll
+===========================
+	libsvn_client-1.dll
+	libsvn_subr-1.dll
+	libsvn_fs-1.dll
+	libsvn_repos-1.dll
+
+Module: php_sybase_ct.dll
+===========================
+	libsybcs64.dll
+	libsybct64.dll
+
+Module: php_win32ps.dll
+===========================
+	psapi.dll
+
+Module: php_couchdb.dll
+===========================
+	libeay32.dll
+	ssleay32.dll
+	normaliz.dll
+
+Module: php_crypto.dll
+===========================
+	libeay32.dll
+
+Module: php_http.dll
+===========================
+	libeay32.dll
+	ssleay32.dll
+	normaliz.dll
+
+Module: php_http1.dll
+===========================
+	libeay32.dll
+	ssleay32.dll
+	normaliz.dll
+
+Module: php_mongo.dll
+===========================
+	libsasl.dll
+	libeay32.dll
+
+Module: php_mongodb.dll
+===========================
+	libsasl.dll
+	ssleay32.dll
+	libeay32.dll
+
+Module: php_pdo_pgsql.dll
+===========================
+	libpq.dll
+
+Module: php_pdo_sqlsrv.dll
+===========================
+	msvcp90.dll
+
+Module: php_solr.dll
+===========================
+	libeay32.dll
+	ssleay32.dll
+	normaliz.dll
+
+Module: php_xmldiff.dll
+===========================
+	msvcp90.dll
+
