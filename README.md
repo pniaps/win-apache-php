@@ -18,7 +18,7 @@ Each version of php is used in a virtualhost:
  - virtualhost `php54` uses PHP Version 5.4.45
  - virtualhost `php55` uses PHP Version 5.5.38
  - virtualhost `php56` uses PHP Version 5.6.25
- - virtualhost `php57` uses PHP Version 7.0.10
+ - virtualhost `php70` uses PHP Version 7.0.10
  - All other hosts uses uses PHP Version 5.6.25
  
 You can add those hosts in the following file `c:\Windows\System32\drivers\etc\hosts`
