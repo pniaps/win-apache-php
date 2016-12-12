@@ -6,6 +6,7 @@
 !php-5.5-Win32-VC11-x64
 !php-5.6-Win32-VC11-x64
 !php-7.0-Win32-VC14-x64
+!php-7.1-Win32-VC14-x64
 !sessions
 !upload_tmp
 !cacert.pem

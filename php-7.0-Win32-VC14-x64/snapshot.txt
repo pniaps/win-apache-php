@@ -1,7 +1,7 @@
 This snapshot was automatically generated on
-Thu, 18 Aug 2016 17:58:09 +0000
+Wed, 07 Dec 2016 00:24:52 +0000
 
-Version: 7.0.10
+Version: 7.0.14
 Branch: HEAD
 Build: C:\php-sdk\php70dev\vc14\x64\obj\Release_TS
 
@@ -113,6 +113,7 @@ Module: php7phpdbg.dll
 Module: php_phpdbg_webhelper.dll
 ===========================
 	vcruntime140.dll
+	api-ms-win-crt-heap-l1-1-0.dll
 	api-ms-win-crt-runtime-l1-1-0.dll
 
 Module: php_bz2.dll
@@ -364,6 +365,7 @@ Module: php_sqlite3.dll
 	api-ms-win-crt-runtime-l1-1-0.dll
 	api-ms-win-crt-time-l1-1-0.dll
 	api-ms-win-crt-utility-l1-1-0.dll
+	api-ms-win-crt-math-l1-1-0.dll
 
 Module: php_sysvshm.dll
 ===========================
@@ -443,6 +445,7 @@ Module: php_pdo_sqlite.dll
 	api-ms-win-crt-runtime-l1-1-0.dll
 	api-ms-win-crt-time-l1-1-0.dll
 	api-ms-win-crt-utility-l1-1-0.dll
+	api-ms-win-crt-math-l1-1-0.dll
 
 Module: php_soap.dll
 ===========================
