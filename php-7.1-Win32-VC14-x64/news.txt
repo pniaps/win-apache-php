@@ -1,5 +1,178 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+16 Feb 2017, PHP 7.1.2
+
+- Core:
+  . Improved GENERATOR_CREATE opcode handler. (Bob, Dmitry)
+  . Fixed bug #73877 (readlink() returns garbage for UTF-8 paths). (Anatol)
+  . Fixed bug #73876 (Crash when exporting **= in expansion of assign op).
+    (Sara)
+  . Fixed bug #73962 (bug with symlink related to cyrillic directory). (Anatol)
+  . Fixed bug #73969 (segfault in debug_print_backtrace). (andrewnester)
+  . Fixed bug #73994 (arginfo incorrect for unpack). (krakjoe)
+  . Fixed bug #73973 (assertion error in debug_zval_dump). (andrewnester)
+
+- DOM:
+  . Fixed bug #54382 (getAttributeNodeNS doesn't get xmlns* attributes).
+    (aboks)
+
+- DTrace:
+  . Fixed bug #73965 (DTrace reported as enabled when disabled). (Remi)
+
+- FCGI:
+  . Fixed bug #73904 (php-cgi fails to load -c specified php.ini file). (Anatol)
+  . Fixed bug #72898 (PHP_FCGI_CHILDREN is not included in phpinfo()). (Anatol)
+
+- FPM:
+  . Fixed bug #69865 (php-fpm does not close stderr when using syslog). 
+    (m6w6)
+
+- GD:
+  . Fixed bug #73968 (Premature failing of XBM reading). (cmb)
+
+- GMP:
+  . Fixed bug #69993 (test for gmp.h needs to test machine includes).
+    (Jordan Gigov) 
+
+- Hash:
+  . Added hash_hkdf() function. (Andrey Andreev)
+  . Fixed bug #73961 (environmental build dependency in hash sha3 source).
+    (krakjoe)
+
+- Intl:
+  . Fix bug #73956 (Link use CC instead of CXX). (Remi)
+
+- LDAP:
+  . Fixed bug #73933 (error/segfault with ldap_mod_replace and opcache).
+    (Laruence)
+
+- MySQLi:
+  . Fixed bug #73949 (leak in mysqli_fetch_object). (krakjoe)
+
+- Mysqlnd:
+  . Fixed bug #69899 (segfault on close() after free_result() with mysqlnd).
+    (Richard Fussenegger)
+
+- Opcache:
+  . Fixed bug #73983 (crash on finish work with phar in cli + opcache).
+    (Anatol)
+
+- OpenSSL:
+  . Fixed bug #71519 (add serial hex to return value array). (xrobau)
+  . Fixed bug #73692 (Compile ext/openssl with openssl 1.1.0 on Win). (Anatol)
+  . Fixed bug #73978 (openssl_decrypt triggers bug in PDO). (Jakub Zelenka)
+
+- PDO_Firebird:
+  . Implemented FR #72583 (All data are fetched as strings). (Dorin Marcoci)
+
+- PDO_PgSQL:
+  . Fixed bug #73959 (lastInsertId fails to throw an exception for wrong 
+    sequence name). (andrewnester)
+
+- Phar:
+  . Fixed bug #70417 (PharData::compress() doesn't close temp file). (cmb)
+
+- posix:
+  . Fixed bug #71219 (configure script incorrectly checks for ttyname_r). (atoh)
+
+- Session:
+  . Fixed bug #69582 (session not readable by root in CLI). (EvgeniySpinov)
+
+- SPL:
+  . Fixed bug #73896 (spl_autoload() crashes when calls magic _call()). (Dmitry)
+
+- Standard:
+  . Fixed bug #69442 (closing of fd incorrect when PTS enabled). (jaytaph)
+  . Fixed bug #47021 (SoapClient stumbles over WSDL delivered with
+    "Transfer-Encoding: chunked"). (Rowan Collins)
+  . Fixed bug #72974 (imap is undefined service on AIX). (matthieu.sarter)
+  . Fixed bug #72979 (money_format stores wrong length AIX). (matthieu.sarter)
+  . Fixed bug #73374 (intval() with base 0 should detect binary). (Leigh)
+  . Fixed bug #69061 (mail.log = syslog contains double information).
+    (Tom Sommer)
+
+- ZIP:
+  . Fixed bug #70103 (ZipArchive::addGlob ignores remove_all_path option). (cmb,
+    Mitch Hagstrand)
+
+19 Jan 2017, PHP 7.1.1
+
+- Core:
+  . Fixed bug #73792 (invalid foreach loop hangs script). (Dmitry)
+  . Fixed bug #73686 (Adding settype()ed values to ArrayObject results in
+    references). (Nikita, Laruence)
+  . Fixed bug #73663 ("Invalid opcode 65/16/8" occurs with a variable created
+    with list()). (Laruence)
+  . Fixed bug #73727 (ZEND_MM_BITSET_LEN is "undefined symbol" in
+    zend_bitset.h). (Nikita)
+  . Fixed bug #73753 (unserialized array pointer not advancing). (David Walker)
+  . Fixed bug #73783 (SIG_IGN doesn't work when Zend Signals is enabled).
+    (David Walker)
+
+- CLI:
+  . Fixed bug #72555 (CLI output(japanese) on Windows). (Anatol)
+
+- COM:
+  . Fixed bug #73679 (DOTNET read access violation using invalid codepage).
+    (Anatol)
+
+- DOM:
+  . Fixed bug #67474 (getElementsByTagNameNS filter on default ns). (aboks)
+
+- Mbstring:
+  . Fixed bug #73646 (mb_ereg_search_init null pointer dereference).
+    (Laruence)
+
+- Mysqli:
+  . Fixed bug #73462 (Persistent connections don't set $connect_errno).
+    (darkain)
+
+- Mysqlnd:
+  . Optimized handling of BIT fields - less memory copies and lower memory
+    usage. (Andrey)
+  . Fixed bug #73800 (sporadic segfault with MYSQLI_OPT_INT_AND_FLOAT_NATIVE). 
+	(vanviegen)
+
+- Opcache:
+  . Fixed bug #73789 (Strange behavior of class constants in switch/case block).
+    (Laruence)
+  . Fixed bug #73746 (Method that returns string returns UNKNOWN:0 instead).
+    (Laruence)
+  . Fixed bug #73654 (Segmentation fault in zend_call_function). (Nikita)
+  . Fixed bug #73668 ("SIGFPE Arithmetic exception" in opcache when divide by
+    minus 1). (Nikita)
+  . Fixed bug #73847 (Recursion when a variable is redefined as array). (Nikita)
+
+- PDO_Firebird:
+  . Fixed bug #72931 (PDO_FIREBIRD with Firebird 3.0 not work on returning
+    statement). (Dorin Marcoci)
+
+- phpdbg:
+  . Fixed bug #73794 (Crash (out of memory) when using run and # command
+    separator). (Bob)
+  . Fixed bug #73704 (phpdbg shows the wrong line in files with shebang). (Bob)
+
+- SQLite3:
+  . Reverted fix for bug #73530	(Unsetting result set may reset other result
+    set). (cmb)
+
+- Standard:
+  . Fixed bug #73594 (dns_get_record does not populate $additional out
+    parameter). (Bruce Weirdan)
+  . Fixed bug #70213 (Unserialize context shared on double class lookup).
+    (Taoguang Chen)
+  . Fixed bug #73154 (serialize object with __sleep function crash). (Nikita)
+  . Fixed bug #70490 (get_browser function is very slow). (Nikita)
+  . Fixed bug #73265 (Loading browscap.ini at startup causes high memory usage).
+    (Nikita)
+  . Add subject to mail log. (tomsommer)
+  . Fixed bug #31875 (get_defined_functions additional param to exclude
+	disabled functions). (willianveiga)
+
+- Zlib
+  . Fixed bug #73373 (deflate_add does not verify that output was not truncated).
+    (Matt Bonneau)
+
 01 Dec 2016, PHP 7.1.0
 
 - Core:

@@ -1,7 +1,7 @@
 This snapshot was automatically generated on
-Fri, 02 Dec 2016 06:14:01 +0000
+Tue, 14 Feb 2017 22:14:11 +0000
 
-Version: 7.1.0
+Version: 7.1.2
 Branch: HEAD
 Build: C:\php-sdk\php71\vc14\x64\obj\Release_TS
 
@@ -337,7 +337,6 @@ Module: php_shmop.dll
 
 Module: php_snmp.dll
 ===========================
-	libeay32.dll
 	vcruntime140.dll
 	api-ms-win-crt-runtime-l1-1-0.dll
 	api-ms-win-crt-string-l1-1-0.dll
@@ -349,6 +348,7 @@ Module: php_snmp.dll
 	api-ms-win-crt-locale-l1-1-0.dll
 	api-ms-win-crt-environment-l1-1-0.dll
 	api-ms-win-crt-filesystem-l1-1-0.dll
+	libeay32.dll
 
 Module: php_sockets.dll
 ===========================
