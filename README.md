@@ -32,3 +32,12 @@ Finally, install apache as service (run as administrator)
 ```
 d:\servidor\Apache-2.4-win64\bin\httpd.exe -k install
 ```
+
+### ImageMagick
+
+ImageMagick is configured in PHP, but you have to install on windows.
+
+1. Download and install version 6.9.3-7 x64 from  `http://ftp.icm.edu.pl/packages/ImageMagick/binaries/ImageMagick-6.9.3-7-Q16-x64-dll.exe`, on last step check "Add application directory to your system path"
+2. Copy all files from `C:\Program Files\ImageMagick-6.9.3-Q16\modules\coders` and `C:\Program Files\ImageMagick-6.9.3-Q16\modules\filters` to `C:\Program Files\ImageMagick-6.9.3-Q16` to load ImageMagick supported formats
+3. Go to Control Panel -> System -> Advanced Settings -> Environment Variables -> New System Variable -> MAGICK_HOME = C:\Program Files\ImageMagick-6.9.3-Q16
+4. Restart apache service
