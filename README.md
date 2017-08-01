@@ -7,8 +7,8 @@ This is my local apache server with different php versions.
  - PHP Version 5.4.45
  - PHP Version 5.5.38
  - PHP Version 5.6.30
- - PHP Version 7.0.16 (default)
- - PHP Version 7.1.2
+ - PHP Version 7.0.16
+ - PHP Version 7.1.2 (default)
 
 ### Installation
 
@@ -21,7 +21,7 @@ Each version of php is used in a virtualhost:
  - virtualhost `php56` uses PHP Version 5.6.30
  - virtualhost `php70` uses PHP Version 7.0.16
  - virtualhost `php71` uses PHP Version 7.1.2
- - All other hosts uses PHP Version 7.0.16
+ - All other hosts uses PHP Version 7.1.2
  
 You can add those hosts in the following file `c:\Windows\System32\drivers\etc\hosts`
 ```
