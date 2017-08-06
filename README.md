@@ -12,7 +12,11 @@ This is my local apache server with different php versions.
 
 ### Installation
 
-This repository has to be cloned in the folder `d:\servidor` and `DocumentRoot` is `d:\web`
+You have to define two environment variables for the `ServerRoot` and `DocumentRoot`:  
+WAP_SERVER => D:/servidor  
+WAP_DOCUMENT_ROOT => D:/web
+
+Apache requires [Microsoft Visual C++ Redistributable for Visual Studio 2017](https://go.microsoft.com/fwlink/?LinkId=746572)
 
 Each version of php is used in a virtualhost:
  - virtualhost `php53` uses PHP Version 5.3.29
