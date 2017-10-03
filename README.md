@@ -6,14 +6,14 @@ This is my local apache server with different php versions.
  - PHP Version 5.3.29
  - PHP Version 5.4.45
  - PHP Version 5.5.38
- - PHP Version 5.6.30
- - PHP Version 7.0.16
- - PHP Version 7.1.2 (default)
+ - PHP Version 5.6.31
+ - PHP Version 7.0.24
+ - PHP Version 7.1.10 (default)
 
 ### Installation
 
 You have to define two environment variables for the `ServerRoot` and `DocumentRoot`:  
-WAP_SERVER => D:/servidor  
+WAP_SERVER => D:/win-apache-php  
 WAP_DOCUMENT_ROOT => D:/web
 
 Apache requires [Microsoft Visual C++ Redistributable for Visual Studio 2017](https://go.microsoft.com/fwlink/?LinkId=746572)
@@ -22,10 +22,10 @@ Each version of php is used in a virtualhost:
  - virtualhost `php53` uses PHP Version 5.3.29
  - virtualhost `php54` uses PHP Version 5.4.45
  - virtualhost `php55` uses PHP Version 5.5.38
- - virtualhost `php56` uses PHP Version 5.6.30
- - virtualhost `php70` uses PHP Version 7.0.16
- - virtualhost `php71` uses PHP Version 7.1.2
- - All other hosts uses PHP Version 7.1.2
+ - virtualhost `php56` uses PHP Version 5.6.31
+ - virtualhost `php70` uses PHP Version 7.0.24
+ - virtualhost `php71` uses PHP Version 7.1.10
+ - All other hosts uses PHP Version 7.1.10
  
 You can add those hosts in the following file `c:\Windows\System32\drivers\etc\hosts`
 ```
@@ -34,7 +34,7 @@ You can add those hosts in the following file `c:\Windows\System32\drivers\etc\h
 
 Finally, install apache as service (run as administrator)
 ```
-d:\servidor\Apache-2.4-win64\bin\httpd.exe -k install
+%WAP_SERVER%\Apache-2.4-win64\bin\httpd.exe -k install
 ```
 
 ### ImageMagick
