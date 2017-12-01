@@ -1,7 +1,7 @@
 This snapshot was automatically generated on
-Tue, 26 Sep 2017 16:19:24 +0000
+Wed, 29 Nov 2017 00:20:15 +0000
 
-Version: 7.2.0RC3
+Version: 7.2.0
 Branch: HEAD
 Build: C:\php-snap-build\php72\vc15\x64\obj\Release_TS
 
@@ -63,9 +63,9 @@ Module: php_ftp.dll
 
 Module: php_intl.dll
 ===========================
-	icuuc57.dll
-	icuin57.dll
-	icuio57.dll
+	icuuc60.dll
+	icuin60.dll
+	icuio60.dll
 
 Module: php_ldap.dll
 ===========================
