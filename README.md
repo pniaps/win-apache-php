@@ -6,10 +6,10 @@ This is my local apache server with different php versions.
  - PHP Version 5.3.29
  - PHP Version 5.4.45
  - PHP Version 5.5.38
- - PHP Version 5.6.31
- - PHP Version 7.0.24
- - PHP Version 7.1.10 (default)
- - PHP Version 7.2.0 RC3
+ - PHP Version 5.6.32
+ - PHP Version 7.0.26
+ - PHP Version 7.1.12 (default)
+ - PHP Version 7.2.0
 
 ### Installation
 
@@ -23,11 +23,11 @@ Each version of php is used in a virtualhost:
  - virtualhost `php53` uses PHP Version 5.3.29
  - virtualhost `php54` uses PHP Version 5.4.45
  - virtualhost `php55` uses PHP Version 5.5.38
- - virtualhost `php56` uses PHP Version 5.6.31
- - virtualhost `php70` uses PHP Version 7.0.24
- - virtualhost `php71` uses PHP Version 7.1.10
- - virtualhost `php72` uses PHP Version 7.2.0 RC3
- - All other hosts uses PHP Version 7.1.10
+ - virtualhost `php56` uses PHP Version 5.6.32
+ - virtualhost `php70` uses PHP Version 7.0.26
+ - virtualhost `php71` uses PHP Version 7.1.12
+ - virtualhost `php72` uses PHP Version 7.2.0
+ - All other hosts uses PHP Version 7.1.12
  
 You can add those hosts in the following file `c:\Windows\System32\drivers\etc\hosts`
 ```
