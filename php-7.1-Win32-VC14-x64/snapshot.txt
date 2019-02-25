@@ -1,7 +1,7 @@
 This snapshot was automatically generated on
-Thu, 23 Nov 2017 05:13:19 +0000
+Wed, 09 Jan 2019 22:45:29 +0000
 
-Version: 7.1.12
+Version: 7.1.26
 Branch: HEAD
 Build: C:\php-snap-build\php71\vc14\x64\obj\Release_TS
 
@@ -41,14 +41,31 @@ xmlwriter
 Dependency information:
 Module: php_curl.dll
 ===========================
+	ssleay32.dll
 	libeay32.dll
 	libssh2.dll
 	nghttp2.dll
-	ssleay32.dll
+
+Module: ssleay32.dll
+===========================
+	libeay32.dll
+
+Module: libssh2.dll
+===========================
+	libeay32.dll
 
 Module: php_enchant.dll
 ===========================
 	libenchant.dll
+
+Module: libenchant.dll
+===========================
+	glib-2.dll
+	gmodule-2.dll
+
+Module: gmodule-2.dll
+===========================
+	glib-2.dll
 
 Module: php_ftp.dll
 ===========================
@@ -60,6 +77,19 @@ Module: php_intl.dll
 	icuuc57.dll
 	icuin57.dll
 	icuio57.dll
+
+Module: icuuc57.dll
+===========================
+	icudt57.dll
+
+Module: icuin57.dll
+===========================
+	icuuc57.dll
+
+Module: icuio57.dll
+===========================
+	icuuc57.dll
+	icuin57.dll
 
 Module: php_ldap.dll
 ===========================
@@ -75,6 +105,11 @@ Module: php_openssl.dll
 Module: php_pgsql.dll
 ===========================
 	libpq.dll
+
+Module: libpq.dll
+===========================
+	ssleay32.dll
+	libeay32.dll
 
 Module: php_snmp.dll
 ===========================
