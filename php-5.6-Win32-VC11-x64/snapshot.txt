@@ -1,7 +1,7 @@
 This snapshot was automatically generated on
-Wed, 25 Oct 2017 23:23:47 +0000
+Wed, 09 Jan 2019 23:34:23 +0000
 
-Version: 5.6.32
+Version: 5.6.40
 Branch: HEAD
 Build: C:\php-sdk\php56\vc11\x64\obj\Release_TS
 
@@ -78,8 +78,8 @@ Module: php_curl.dll
 ===========================
 	libeay32.dll
 	libssh2.dll
-	ssleay32.dll
 	normaliz.dll
+	ssleay32.dll
 	msvcr110.dll
 
 Module: php_enchant.dll
