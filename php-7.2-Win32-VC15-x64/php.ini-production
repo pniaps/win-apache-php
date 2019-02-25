@@ -305,6 +305,7 @@ serialize_precision = -1
 ; open_basedir, if set, limits all file operations to the defined directory
 ; and below.  This directive makes most sense if used in a per-directory
 ; or per-virtualhost web server configuration file.
+; Note: disables the realpath cache
 ; http://php.net/open-basedir
 ;open_basedir =
 
@@ -337,6 +338,7 @@ disable_classes =
 ; Determines the size of the realpath cache to be used by PHP. This value should
 ; be increased on systems where PHP opens many files to reflect the quantity of
 ; the file operations performed.
+; Note: if open_basedir is set, the cache is disabled
 ; http://php.net/realpath-cache-size
 ;realpath_cache_size = 4096k
 
@@ -872,7 +874,7 @@ default_socket_timeout = 60
 ; For example:
 ;
 ;   extension=mysqli
-; 
+;
 ; When the extension library to load is not located in the default extension
 ; directory, You may specify an absolute path to the library file:
 ;
@@ -885,7 +887,6 @@ default_socket_timeout = 60
 ;
 ; Notes for Windows environments :
 ;
-; - ODBC support is built in, so no dll is needed for it.
 ; - Many DLL files are located in the extensions/ (PHP 4) or ext/ (PHP 5+)
 ;   extension folders as well as the separate PECL DLL download (PHP 5+).
 ;   Be sure to appropriately set the extension_dir directive.
@@ -904,6 +905,7 @@ default_socket_timeout = 60
 ;extension=exif      ; Must be after mbstring as it depends on it
 ;extension=mysqli
 ;extension=oci8_12c  ; Use with Oracle Database 12c Instant Client
+;extension=odbc
 ;extension=openssl
 ;extension=pdo_firebird
 ;extension=pdo_mysql
@@ -974,6 +976,13 @@ cli_server.color = On
 ; To use an output encoding conversion, iconv's output handler must be set
 ; otherwise output encoding conversion cannot be performed.
 ;iconv.output_encoding =
+
+[imap]
+; rsh/ssh logins are disabled by default. Use this INI entry if you want to
+; enable them. Note that the IMAP library does not filter mailbox names before
+; passing them to rsh/ssh command, thus passing untrusted data to this function
+; with rsh/ssh enabled is insecure.
+;imap.enable_insecure_rsh=0
 
 [intl]
 ;intl.default_locale =
@@ -1049,7 +1058,7 @@ smtp_port = 25
 ;mail.force_extra_parameters =
 
 ; Add X-PHP-Originating-Script: that will include uid of the script followed by the filename
-mail.add_x_header = On
+mail.add_x_header = Off
 
 ; The path to a log file that will log all mail() calls. Log entries include
 ; the full path of the script, line number, To address and headers.
@@ -1804,10 +1813,6 @@ ldap.max_links = -1
 ; size of the optimized code.
 ;opcache.save_comments=1
 
-; If enabled, a fast shutdown sequence is used for the accelerated code
-; Depending on the used Memory Manager this may cause some incompatibilities.
-;opcache.fast_shutdown=0
-
 ; Allow file existence override (file_exists, etc.) performance feature.
 ;opcache.enable_file_override=0
 
@@ -1889,6 +1894,10 @@ ldap.max_links = -1
 
 ; Prevent name collisions in chroot'ed environment.
 ;opcache.validate_root=0
+
+; If specified, it produces opcode dumps for debugging different stages of
+; optimizations.
+;opcache.opt_debug_level=0
 
 [curl]
 ; A default value for the CURLOPT_CAINFO option. This is required to be an

@@ -1,7 +1,7 @@
 This snapshot was automatically generated on
-Wed, 29 Nov 2017 00:20:15 +0000
+Tue, 05 Feb 2019 23:27:33 +0000
 
-Version: 7.2.0
+Version: 7.2.15
 Branch: HEAD
 Build: C:\php-snap-build\php72\vc15\x64\obj\Release_TS
 
@@ -47,14 +47,31 @@ mysqli
 Dependency information:
 Module: php_curl.dll
 ===========================
-	libssh2.dll
-	nghttp2.dll
 	libcrypto-1_1-x64.dll
 	libssl-1_1-x64.dll
+	libssh2.dll
+	nghttp2.dll
+
+Module: libssl-1_1-x64.dll
+===========================
+	libcrypto-1_1-x64.dll
+
+Module: libssh2.dll
+===========================
+	libcrypto-1_1-x64.dll
 
 Module: php_enchant.dll
 ===========================
 	libenchant.dll
+
+Module: libenchant.dll
+===========================
+	glib-2.dll
+	gmodule-2.dll
+
+Module: gmodule-2.dll
+===========================
+	glib-2.dll
 
 Module: php_ftp.dll
 ===========================
@@ -63,9 +80,22 @@ Module: php_ftp.dll
 
 Module: php_intl.dll
 ===========================
-	icuuc60.dll
-	icuin60.dll
-	icuio60.dll
+	icuuc63.dll
+	icuin63.dll
+	icuio63.dll
+
+Module: icuuc63.dll
+===========================
+	icudt63.dll
+
+Module: icuin63.dll
+===========================
+	icuuc63.dll
+
+Module: icuio63.dll
+===========================
+	icuuc63.dll
+	icuin63.dll
 
 Module: php_ldap.dll
 ===========================
@@ -81,6 +111,11 @@ Module: php_openssl.dll
 Module: php_pgsql.dll
 ===========================
 	libpq.dll
+
+Module: libpq.dll
+===========================
+	libssl-1_1-x64.dll
+	libcrypto-1_1-x64.dll
 
 Module: php_snmp.dll
 ===========================
