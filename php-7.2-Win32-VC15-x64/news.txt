@@ -1,5 +1,139 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+29 Aug 2019, PHP 7.2.22
+
+- Core:
+  . Fixed bug #78363 (Buffer overflow in zendparse). (Nikita)
+  . Fixed bug #78379 (Cast to object confuses GC, causes crash). (Dmitry)
+
+- Curl:
+  . Fixed bug #77946 (Bad cURL resources returned by curl_multi_info_read()).
+    (Abyr Valg)
+
+- Exif:
+  . Fixed bug #78333 (Exif crash (bus error) due to wrong alignment and
+    invalid cast). (Nikita)
+
+- Iconv:
+  . Fixed bug #78342 (Bus error in configure test for iconv //IGNORE). (Rainer
+    Jung)
+
+- LiteSpeed:
+  . Updated to LiteSpeed SAPI V7.5 (Fixed clean shutdown). (George Wang)
+
+- MySQLnd:
+  . Fixed bug #78179 (MariaDB server version incorrectly detected). (cmb)
+
+- Opcache:
+  . Fixed bug #77191 (Assertion failure in dce_live_ranges() when silencing is
+    used). (Nikita)
+
+- Standard:
+  . Fixed bug #69100 (Bus error from stream_copy_to_stream (file -> SSL stream)
+    with invalid length). (Nikita)
+  . Fixed bug #78282 (atime and mtime mismatch). (cmb)
+  . Fixed bug #78326 (improper memory deallocation on stream_get_contents()
+    with fixed length buffer). (Albert Casademont)
+
+01 Aug 2019, PHP 7.2.21
+
+- Date:
+  . Fixed bug #69044 (discrepency between time and microtime). (krakjoe)
+
+- EXIF:
+  . Fixed bug #78256 (heap-buffer-overflow on exif_process_user_comment).
+    (CVE-2019-11042) (Stas)
+  . Fixed bug #78222 (heap-buffer-overflow on exif_scan_thumbnail).
+    (CVE-2019-11041) (Stas)
+
+- Fileinfo:
+  . Fixed bug #78183 (finfo_file shows wrong mime-type for .tga file).
+    (Joshua Westerheide)
+
+- FTP:
+  . Fixed bug #77124 (FTP with SSL memory leak). (Nikita)
+
+- Libxml:
+  . Fixed bug #78279 (libxml_disable_entity_loader settings is shared between
+    requests (cgi-fcgi)). (Nikita)
+
+- LiteSpeed:
+  . Updated to LiteSpeed SAPI V7.4.3 (increased response header count limit from
+    100 to 1000, added crash handler to cleanly shutdown PHP request, added
+    CloudLinux mod_lsapi mode). (George Wang)
+  . Fixed bug #76058 (After "POST data can't be buffered", using php://input
+    makes huge tmp files). (George Wang)
+
+- Openssl:
+  . Fixed bug #78231 (Segmentation fault upon stream_socket_accept of exported
+    socket-to-stream). (Nikita)
+
+- OPcache:
+  . Fixed bug #78189 (file cache strips last character of uname hash). (cmb)
+  . Fixed bug #78202 (Opcache stats for cache hits are capped at 32bit NUM).
+    (cmb)
+  . Fixed bug #78291 (opcache_get_configuration doesn't list all directives).
+    (Andrew Collington)
+
+- Phar:
+  . Fixed bug #77919 (Potential UAF in Phar RSHUTDOWN). (cmb)
+
+- Phpdbg:
+  . Fixed bug #78297 (Include unexistent file memory leak). (Nikita)
+
+- PDO_Sqlite:
+  . Fixed bug #78192 (SegFault when reuse statement after schema has changed).
+    (Vincent Quatrevieux)
+
+- SQLite:
+  . Upgraded to SQLite 3.28.0. (cmb)
+
+- Standard:
+  . Fixed bug #78241 (touch() does not handle dates after 2038 in PHP 64-bit).
+    (cmb)
+  . Fixed bug #78269 (password_hash uses weak options for argon2). (Remi)
+
+- XMLRPC:
+  . Fixed bug #78173 (XML-RPC mutates immutable objects during encoding).
+    (Asher Baker)
+
+04 Jul 2019, PHP 7.2.20
+
+- Core:
+  . Fixed bug #76980 (Interface gets skipped if autoloader throws an exception).
+    (Nikita)
+
+- DOM:
+  . Fixed bug #78025 (segfault when accessing properties of DOMDocumentType).
+    (cmb)
+
+- MySQLi:
+  . Fixed bug #77956 (When mysqli.allow_local_infile = Off, use a meaningful
+    error message). (Sjon Hortensius)
+  . Fixed bug #38546 (bindParam incorrect processing of bool types).
+    (camporter)
+
+- Opcache:
+  . Fixed bug #78106 (Path resolution fails if opcache disabled during request).
+    (Nikita)
+  . Fixed bug #78185 (File cache no longer works). (Dmitry)
+
+- OpenSSL:
+  . Fixed bug #78079 (openssl_encrypt_ccm.phpt fails with OpenSSL 1.1.1c).
+    (Jakub Zelenka)
+
+- Sockets:
+  . Fixed bug #78038 (Socket_select fails when resource array contains
+    references). (Nikita)
+
+- Standard:
+  . Fixed bug #77135 (Extract with EXTR_SKIP should skip $this).
+    (Craig Duncan, Dmitry)
+  . Fixed bug ##77937	(preg_match failed). (cmb, Anatol)
+
+- Zip:
+  . Fixed bug #76345 (zip.h not found). (Michael Maroszek)
+
 30 May 2019, PHP 7.2.19
 
 - EXIF:
@@ -53,7 +187,7 @@ PHP                                                                        NEWS
     value). (Ignace Nyamagana Butera)
 
 - EXIF
-  . Fixed bug #77950 (Heap-buffer-overflow in _estrndup via exif_process_IFD_TAG). 
+  . Fixed bug #77950 (Heap-buffer-overflow in _estrndup via exif_process_IFD_TAG).
     (CVE-2019-11036) (Stas)
 
 - Interbase:
@@ -84,7 +218,7 @@ PHP                                                                        NEWS
   . Fixed bug #77800 (phpdbg segfaults on listing some conditional breakpoints).
     (krakjoe)
   . Fixed bug #77805 (phpdbg build fails when readline is shared). (krakjoe)
-    
+
 - Reflection:
   . Fixed bug #77772 (ReflectionClass::getMethods(null) doesn't work). (Nikita)
   . Fixed bug #77882 (Different behavior: always calls destructor). (Nikita)
@@ -127,7 +261,7 @@ PHP                                                                        NEWS
 - EXIF:
   . Fixed bug #77753 (Heap-buffer-overflow in php_ifd_get32s). (CVE-2019-11034)
     (Stas)
-  . Fixed bug #77831 (Heap-buffer-overflow in exif_iif_add_value). 
+  . Fixed bug #77831 (Heap-buffer-overflow in exif_iif_add_value).
     (CVE-2019-11035) (Stas)
 
 - FPM:
