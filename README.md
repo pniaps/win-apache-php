@@ -31,15 +31,16 @@ Each version of php is used in a virtualhost:
  - virtualhost `php71` uses PHP Version 7.1.32
  - virtualhost `php72` uses PHP Version 7.2.22
  - virtualhost `php73` uses PHP Version 7.3.9
+ - virtualhost `php74` uses PHP Version 7.4.12
  - All other hosts uses PHP Version 7.3.9
  
 You can add those hosts in the following file `c:\Windows\System32\drivers\etc\hosts`
 ```
-127.0.0.1 php53 php54 php55 php56 php70 php71 php72 php73
+127.0.0.1 php53 php54 php55 php56 php70 php71 php72 php73 php74
 ```
 Or executing the folling command as administrator
 ```
-(echo. & echo 127.0.0.1 php53 php54 php55 php56 php70 php71 php72 php73) >> C:\Windows\System32\drivers\etc\hosts
+(echo. & echo 127.0.0.1 php53 php54 php55 php56 php70 php71 php72 php73 php74) >> C:\Windows\System32\drivers\etc\hosts
 ```
 
 Add folder `%WAP_SERVER%\php-7.3-Win32-VC15-x64` to path if you want to execute `php` or `composer` from the command line.
@@ -49,9 +50,9 @@ Finally, install apache as service (run as administrator)
 %WAP_SERVER%\Apache-2.4-win64\bin\httpd.exe -k install
 ```
 
-You can install it automatically executing `configure.bat` as administrator. It will create the folder `web` next to `win-apache-php` if does not exists.
+You can install it automatically executing `configure.bat` as administrator. It will create the folder `web` next to `win-apache-php` if does not exists, add PHP to path, set the system variables `WAP_SERVER` and `WAP_DOCUMENT_ROOT`, add hosts, install and start apache service.
 
-Once installed and service started, you can test the `phpinfo()` for each version to check all is working correctly (phpinfo is only accesible from each php host and localhost).
+Once installed and service started, you can test the `phpinfo()` for each version to check all is working correctly (**phpinfo is only accesible from each php host and localhost**).
 - http://php53/phpinfo
 - http://php54/phpinfo
 - http://php55/phpinfo
@@ -60,7 +61,18 @@ Once installed and service started, you can test the `phpinfo()` for each versio
 - http://php71/phpinfo
 - http://php72/phpinfo
 - http://php73/phpinfo
+- http://php74/phpinfo
 - http://localhost/phpinfo
+
+### Uptate
+
+To update this repo, you only have to stop apache service and pull. A simple way is executing the following commands as administrator.
+```
+cd /d %WAP_SERVER%
+sc stop Apache2.4  
+git pull  
+sc start Apache2.4  
+```
 
 ### ImageMagick (older, not tested)
 

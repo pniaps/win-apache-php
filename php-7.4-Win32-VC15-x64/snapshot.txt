@@ -1,7 +1,7 @@
 This snapshot was automatically generated on
-Tue, 17 Dec 2019 20:33:11 +0000
+Tue, 27 Oct 2020 18:22:58 +0000
 
-Version: 7.4.1
+Version: 7.4.12
 Branch: HEAD
 Build: C:\php-snap-build\php74\vc15\x64\obj\Release_TS
 
@@ -83,22 +83,22 @@ Module: php_ftp.dll
 
 Module: php_intl.dll
 ===========================
-	icuuc65.dll
-	icuin65.dll
-	icuio65.dll
+	icuuc66.dll
+	icuin66.dll
+	icuio66.dll
 
-Module: icuuc65.dll
+Module: icuuc66.dll
 ===========================
-	icudt65.dll
+	icudt66.dll
 
-Module: icuin65.dll
+Module: icuin66.dll
 ===========================
-	icuuc65.dll
+	icuuc66.dll
 
-Module: icuio65.dll
+Module: icuio66.dll
 ===========================
-	icuuc65.dll
-	icuin65.dll
+	icuuc66.dll
+	icuin66.dll
 
 Module: php_ldap.dll
 ===========================

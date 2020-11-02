@@ -306,12 +306,12 @@ serialize_precision = -1
 ; http://php.net/open-basedir
 ;open_basedir =
 
-; This directive allows you to disable certain functions for security reasons.
+; This directive allows you to disable certain functions.
 ; It receives a comma-delimited list of function names.
 ; http://php.net/disable-functions
 disable_functions =
 
-; This directive allows you to disable certain classes for security reasons.
+; This directive allows you to disable certain classes.
 ; It receives a comma-delimited list of class names.
 ; http://php.net/disable-classes
 disable_classes =
@@ -361,7 +361,9 @@ zend.enable_gc = On
 ; Default: ""
 ;zend.script_encoding =
 
-; Allows to include or exclude arguments from stack traces generated for exceptions
+; Allows to include or exclude arguments from stack traces generated for exceptions.
+; In production, it is recommended to turn this setting on to prohibit the output 
+; of sensitive information in stack traces
 ; Default: Off
 zend.exception_ignore_args = Off
 
@@ -402,7 +404,7 @@ max_input_time = 60
 ; How many GET/POST/COOKIE input variables may be accepted
 ;max_input_vars = 1000
 
-; Maximum amount of memory a script may consume (128MB)
+; Maximum amount of memory a script may consume
 ; http://php.net/memory-limit
 memory_limit = 128M
 
@@ -525,7 +527,9 @@ report_memleaks = On
 ; This setting is on by default.
 ;report_zend_debug = 0
 
-; Store the last error/warning message in $php_errormsg (boolean).
+; Store the last error/warning message in $php_errormsg (boolean). Setting this value
+; to On can assist in debugging and is appropriate for development servers. It should
+; however be disabled on production servers.
 ; This directive is DEPRECATED.
 ; Default Value: Off
 ; Development Value: Off
@@ -909,6 +913,7 @@ default_socket_timeout = 60
 ;extension=bz2
 ;extension=curl
 ;extension=ffi
+;extension=ftp
 ;extension=fileinfo
 ;extension=gd2
 ;extension=gettext
@@ -1385,7 +1390,8 @@ session.cookie_domain =
 session.cookie_httponly =
 
 ; Add SameSite attribute to cookie to help mitigate Cross-Site Request Forgery (CSRF/XSRF)
-; Current valid values are "Lax" or "Strict"
+; Current valid values are "Strict", "Lax" or "None". When using "None",
+; make sure to include the quotes, as `none` is interpreted like `false` in ini files.
 ; https://tools.ietf.org/html/draft-west-first-party-cookies-07
 session.cookie_samesite =
 
@@ -1393,12 +1399,9 @@ session.cookie_samesite =
 ; http://php.net/session.serialize-handler
 session.serialize_handler = php
 
-; Defines the probability that the 'garbage collection' process is started
-; on every session initialization. The probability is calculated by using
-; gc_probability/gc_divisor. Where session.gc_probability is the numerator
-; and gc_divisor is the denominator in the equation. Setting this value to 1
-; when the session.gc_divisor value is 100 will give you approximately a 1% chance
-; the gc will run on any given request.
+; Defines the probability that the 'garbage collection' process is started on every
+; session initialization. The probability is calculated by using gc_probability/gc_divisor,
+; e.g. 1/100 means there is a 1% chance that the GC process starts on each request.
 ; Default Value: 1
 ; Development Value: 1
 ; Production Value: 1
@@ -1406,13 +1409,9 @@ session.serialize_handler = php
 session.gc_probability = 1
 
 ; Defines the probability that the 'garbage collection' process is started on every
-; session initialization. The probability is calculated by using the following equation:
-; gc_probability/gc_divisor. Where session.gc_probability is the numerator and
-; session.gc_divisor is the denominator in the equation. Setting this value to 100
-; when the session.gc_probability value is 1 will give you approximately a 1% chance
-; the gc will run on any given request. Increasing this value to 1000 will give you
-; a 0.1% chance the gc will run on any given request. For high volume production servers,
-; this is a more efficient approach.
+; session initialization. The probability is calculated by using gc_probability/gc_divisor,
+; e.g. 1/100 means there is a 1% chance that the GC process starts on each request.
+; For high volume production servers, using a value of 1000 is a more efficient approach.
 ; Default Value: 100
 ; Development Value: 1000
 ; Production Value: 1000
@@ -1428,8 +1427,8 @@ session.gc_maxlifetime = 1440
 ;       (see session.save_path above), then garbage collection does *not*
 ;       happen automatically.  You will need to do your own garbage
 ;       collection through a shell script, cron entry, or some other method.
-;       For example, the following script would is the equivalent of
-;       setting session.gc_maxlifetime to 1440 (1440 seconds = 24 minutes):
+;       For example, the following script is the equivalent of setting
+;       session.gc_maxlifetime to 1440 (1440 seconds = 24 minutes):
 ;          find /path/to/sessions -cmin +24 -type f | xargs rm
 
 ; Check HTTP Referer to invalidate externally stored URLs containing ids.
@@ -1590,8 +1589,6 @@ zend.assertions = 1
 ; error_reporting(0) around the eval().
 ; http://php.net/assert.quiet-eval
 ;assert.quiet_eval = 0
-
-
 
 [COM]
 ; path to a file containing GUIDs, IIDs or filenames of files with TypeLibs
