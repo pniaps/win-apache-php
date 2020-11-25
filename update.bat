@@ -9,6 +9,10 @@
     @goto :EOF
 )
 
+setx /m PATH "%PATH:php-7.3-Win32-VC15-x64=php-7.4-Win32-VC15-x64%"
+set PATH "%PATH:php-7.3-Win32-VC15-x64=php-7.4-Win32-VC15-x64%"
+
+
 SET currentpath=%~dp0
 SET currentpath=%currentpath:~0,-1%
 cd /d %currentpath%

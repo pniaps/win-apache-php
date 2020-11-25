@@ -4,8 +4,8 @@ SET currentpath=%~dp0
 SET currentpath=%currentpath:~0,-1%
 cd /d %currentpath%
 
-setx /m PATH "%PATH%;%currentpath%\php-7.3-Win32-VC15-x64"
-set PATH "%PATH%;%currentpath%\php-7.3-Win32-VC15-x64"
+setx /m PATH "%PATH%;%currentpath%\php-7.4-Win32-VC15-x64"
+set PATH "%PATH%;%currentpath%\php-7.4-Win32-VC15-x64"
 
 setx /m WAP_SERVER %cd:\=/%
 set WAP_SERVER=%cd:\=/%
