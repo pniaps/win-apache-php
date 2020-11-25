@@ -1,6 +1,84 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-19 Dec 2019, PHP 7.2.26
+01 Oct 2020, PHP 7.2.34
+
+- Core:
+  . Fixed bug #79699 (PHP parses encoded cookie names so malicious `__Host-`
+    cookies can be sent). (CVE-2020-7070) (Stas)
+
+- OpenSSL:
+  . Fixed bug #79601 (Wrong ciphertext/tag in AES-CCM encryption for a 12
+    bytes IV). (CVE-2020-7069) (Jakub Zelenka)
+
+06 Aug 2020, PHP 7.2.33
+
+- Core:
+  . Fixed bug #79877 (getimagesize function silently truncates after a null 
+    byte) (cmb)
+
+- Phar:
+  . Fixed bug #79797 (Use of freed hash key in the phar_parse_zipfile
+    function). (CVE-2020-7068) (cmb)
+
+09 Jul 2020, PHP 7.2.32
+
+- Core:
+  . No source changes to this release.
+    Vesion number added for reproduction of Windows builds. (cmb)
+
+14 May 2020, PHP 7.2.31
+
+- Core:
+  . Fixed bug #78875 (Long filenames cause OOM and temp files are not cleaned). 
+    (CVE-2019-11048) (cmb)
+  . Fixed bug #78876 (Long variables in multipart/form-data cause OOM and temp 
+    files are not cleaned). (CVE-2019-11048) (cmb)
+
+16 Apr 2020, PHP 7.2.30
+
+- Standard:
+  . Fixed bug #79468 (SIGSEGV when closing stream handle with a stream filter
+    appended). (dinosaur)
+  . Fixed bug #79330 (shell_exec() silently truncates after a null byte). (stas)
+  . Fixed bug #79465 (OOB Read in urldecode()). (stas)
+
+19 Mar 2020, PHP 7.2.29
+
+- EXIF:
+  . Fixed bug #79282 (Use-of-uninitialized-value in exif). (CVE-2020-7064) 
+    (Nikita)
+
+- Standard: 
+  . Fixed bug #79329 (get_headers() silently truncates after a null byte) 
+    (CVE-2020-7066). (cmb)
+
+20 Feb 2020, PHP 7.2.28
+
+- DOM:
+  . Fixed bug #77569: (Write Access Violation in DomImplementation). (Nikita,
+    cmb)
+
+- Phar:
+  . Fixed bug #79082 (Files added to tar with Phar::buildFromIterator have
+    all-access permissions). (CVE-2020-7063) (stas)
+
+- Session:
+  . Fixed bug #79221 (Null Pointer Dereference in PHP Session Upload Progress).
+    (CVE-2020-7062) (stas)
+
+23 Jan 2020, PHP 7.2.27
+
+- Mbstring:
+  . Fixed bug #79037 (global buffer-overflow in `mbfl_filt_conv_big5_wchar`). 
+    (CVE-2020-7060) (Nikita)
+
+- Session:
+  . Fixed bug #79091 (heap use-after-free in session_create_id()). (cmb, Nikita)
+
+- Standard:
+  . Fixed bug #79099 (OOB read in php_strip_tags_ex). (CVE-2020-7059). (cmb)
+
+18 Dec 2019, PHP 7.2.26
 
 - Bcmath:
   . Fixed bug #78878 (Buffer underflow in bc_shift_addsub). (CVE-2019-11046).
