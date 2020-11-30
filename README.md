@@ -33,15 +33,16 @@ Each version of php is used in a virtualhost:
  - virtualhost `php72` uses PHP Version 7.2.34
  - virtualhost `php73` uses PHP Version 7.3.24
  - virtualhost `php74` uses PHP Version 7.4.12
+ - virtualhost `php80` uses PHP Version 8.0.0
  - All other hosts uses PHP Version 7.4.12
  
 You can add those hosts in the following file `c:\Windows\System32\drivers\etc\hosts`
 ```
-127.0.0.1 php53 php54 php55 php56 php70 php71 php72 php73 php74
+127.0.0.1 php53 php54 php55 php56 php70 php71 php72 php73 php74 php80
 ```
 Or executing the folling command as administrator
 ```
-(echo. & echo 127.0.0.1 php53 php54 php55 php56 php70 php71 php72 php73 php74) >> C:\Windows\System32\drivers\etc\hosts
+(echo. & echo 127.0.0.1 php53 php54 php55 php56 php70 php71 php72 php73 php74 php80) >> C:\Windows\System32\drivers\etc\hosts
 ```
 
 Add folder `%WAP_SERVER%\php-7.3-Win32-VC15-x64` to path if you want to execute `php` or `composer` from the command line.
@@ -63,6 +64,7 @@ Once installed and service started, you can test the `phpinfo()` for each versio
 - http://php72/phpinfo
 - http://php73/phpinfo
 - http://php74/phpinfo
+- http://php80/phpinfo
 - http://localhost/phpinfo
 
 ### Uptate
