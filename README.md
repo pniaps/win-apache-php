@@ -8,7 +8,7 @@ This is my local apache server with different php versions.
  - PHP Version 5.5.38
  - PHP Version 5.6.40
  - PHP Version 7.0.33
- - PHP Version 7.1.32
+ - PHP Version 7.1.33
  - PHP Version 7.2.34
  - PHP Version 7.3.24
  - PHP Version 7.4.12 (default)
@@ -29,7 +29,7 @@ Each version of php is used in a virtualhost:
  - virtualhost `php55` uses PHP Version 5.5.38
  - virtualhost `php56` uses PHP Version 5.6.40
  - virtualhost `php70` uses PHP Version 7.0.33
- - virtualhost `php71` uses PHP Version 7.1.32
+ - virtualhost `php71` uses PHP Version 7.1.33
  - virtualhost `php72` uses PHP Version 7.2.34
  - virtualhost `php73` uses PHP Version 7.3.24
  - virtualhost `php74` uses PHP Version 7.4.12
