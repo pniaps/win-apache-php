@@ -558,7 +558,11 @@ AP_DECLARE(void) ap_note_digest_auth_failure(request_rec *r);
 AP_DECLARE_HOOK(int, note_auth_failure, (request_rec *r, const char *auth_type))
 
 /**
- * Get the password from the request headers
+ * Get the password from the request headers. This function has multiple side
+ * effects due to its prior use in the old authentication framework.
+ * ap_get_basic_auth_components() should be preferred.
+ *
+ * @deprecated @see ap_get_basic_auth_components
  * @param r The current request
  * @param pw The password as set in the headers
  * @return 0 (OK) if it set the 'pw' argument (and assured
@@ -570,6 +574,25 @@ AP_DECLARE_HOOK(int, note_auth_failure, (request_rec *r, const char *auth_type))
  *         decline as well).
  */
 AP_DECLARE(int) ap_get_basic_auth_pw(request_rec *r, const char **pw);
+
+#define AP_GET_BASIC_AUTH_PW_NOTE "AP_GET_BASIC_AUTH_PW_NOTE"
+
+/**
+ * Get the username and/or password from the request's Basic authentication
+ * headers. Unlike ap_get_basic_auth_pw(), calling this function has no side
+ * effects on the passed request_rec.
+ *
+ * @param r The current request
+ * @param username If not NULL, set to the username sent by the client
+ * @param password If not NULL, set to the password sent by the client
+ * @return APR_SUCCESS if the credentials were successfully parsed and returned;
+ *         APR_EINVAL if there was no authentication header sent or if the
+ *         client was not using the Basic authentication scheme. username and
+ *         password are unchanged on failure.
+ */
+AP_DECLARE(apr_status_t) ap_get_basic_auth_components(const request_rec *r,
+                                                      const char **username,
+                                                      const char **password);
 
 /**
  * parse_uri: break apart the uri
@@ -583,7 +606,9 @@ AP_DECLARE(int) ap_get_basic_auth_pw(request_rec *r, const char **pw);
 AP_CORE_DECLARE(void) ap_parse_uri(request_rec *r, const char *uri);
 
 #define AP_GETLINE_FOLD 1 /* Whether to merge continuation lines */
-#define AP_GETLINE_CRLF 2 /*Whether line ends must be in the form CR LF */
+#define AP_GETLINE_CRLF 2 /* Whether line ends must be in the form CR LF */
+#define AP_GETLINE_NOSPC_EOL 4 /* Whether to consume up to and including the
+                                  end of line on APR_ENOSPC */
 
 /**
  * Get the next line of input for the request
@@ -773,8 +798,7 @@ AP_DECLARE_HOOK(int,protocol_propose,(conn_rec *c, request_rec *r,
  * @param c The current connection
  * @param r The current request or NULL
  * @param s The server/virtual host selected
- * @param choices A list of protocol identifiers, normally the clients whishes
- * @param proposals the list of protocol identifiers proposed by the hooks
+ * @param protocol The protocol identifier we try to switch to
  * @return OK or DECLINED
  * @bug This API or implementation and order of operations should be considered
  * experimental and will continue to evolve in future 2.4 releases, with

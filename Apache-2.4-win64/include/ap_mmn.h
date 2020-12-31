@@ -494,6 +494,47 @@
  *                          and ap_scan_vchar_obstext()
  *                          Replaced fold boolean with with multiple bit flags
  *                          to ap_[r]getline()
+ * 20120211.68 (2.4.26-dev) Add ap_get_basic_auth_components() and deprecate
+ *                          ap_get_basic_auth_pw()
+ * 20120211.69 (2.4.30-dev) Add ap_update_sb_handle()
+ * 20120211.70 (2.4.30-dev) Add flags field to module_struct and function
+ *                          ap_get_module_flags()
+ * 20120211.71 (2.4.30-dev) Add optional proxy_{hook,run}_section_post_config(),
+ *                          ap_proxy_connection_create_ex() and section_config
+ *                          to struct proxy_{worker,balancer} in mod_proxy.h,
+ *                          and optional ssl_engine_set() to mod_ssl.h.
+ * 20120211.72 (2.4.30-dev) Add NOT_IN_DIR_CONTEXT replacing NOT_IN_DIR_LOC_FILE
+ *                          semantics
+ * 20120211.73 (2.4.30-dev) Add failontimeout_set, growth_set and lbmethod_set
+ *                          to proxy_balancer struct
+ * 20120211.74 (2.4.30-dev) Add AP_REG_DOLLAR_ENDONLY, ap_regcomp_get_default_cflags
+ *                          ap_regcomp_set_default_cflags and
+ *                          ap_regcomp_default_cflag_by_name
+ * 20120211.75 (2.4.30-dev) Add hostname_ex to proxy_worker_shared
+ * 20120211.76 (2.4.30-dev) Add CONN_STATE_NUM to enum conn_state_e
+ * 20120211.77 (2.4.34-dev) Add ap_exists_directive()
+ * 20120211.78 (2.4.34-dev) Add response_field_size to proxy_worker_shared 
+ * 20120211.79 (2.4.34-dev) Add AP_GETLINE_NOSPC_EOL flag to http_protocol.h
+ * 20120211.80 (2.4.35-dev) Add new ap_update_global_status() method and
+ *                          times field in the global_score structure in
+ *                          scoreboard.h.
+ * 20120211.81 (2.4.35-dev) Add new duration field to worker_score struct in
+ *                          scoreboard.h
+ * 20120211.82 (2.4.35-dev) Add optional function declaration for
+ *                          ap_proxy_balancer_get_best_worker to mod_proxy.h.
+ * 20120211.83 (2.4.35-dev) Add client64 field to worker_score struct
+ * 20120211.84 (2.4.35-dev) Add ap_no2slash_ex() and merge_slashes to 
+ *                          core_server_conf.
+ * 20120211.85 (2.4.40-dev) add ap_set_conn_count().
+ * 20120211.86 (2.4.40-dev) Add forward_100_continue{,_set} to proxy_dir_conf
+ * 20120211.87 (2.4.40-dev) Add dav_popen_propdb
+ * 20120211.88 (2.4.40-dev) Add ap_dir_nofnmatch() and ap_dir_fnmatch().
+ * 20120211.89 (2.4.42-dev) Add add dns_pool to proxy_conn_pool and define
+ *                          AP_VOLATILIZE_T.
+ * 20120211.90 (2.4.42-dev) AP_REG_DEFAULT macro in ap_regex.h
+ * 20120211.91 (2.4.42-dev) Add ap_is_chunked() in httpd.h
+ * 20120211.92 (2.4.42-dev) AP_REG_NO_DEFAULT macro in ap_regex.h
+ * 20120211.93 (2.4.44-dev) Add ap_parse_strict_length()
  */
 
 #define MODULE_MAGIC_COOKIE 0x41503234UL /* "AP24" */
@@ -501,7 +542,7 @@
 #ifndef MODULE_MAGIC_NUMBER_MAJOR
 #define MODULE_MAGIC_NUMBER_MAJOR 20120211
 #endif
-#define MODULE_MAGIC_NUMBER_MINOR 67                   /* 0...n */
+#define MODULE_MAGIC_NUMBER_MINOR 93                  /* 0...n */
 
 /**
  * Determine if the server's current MODULE_MAGIC_NUMBER is at least a

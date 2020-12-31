@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-/* Derived from PCRE's pcreposix.h.
+/* This code is based on pcreposix.h from the PCRE Library distribution,
+ * as originally written by Philip Hazel <ph10@cam.ac.uk>, and forked by
+ * the Apache HTTP Server project to provide POSIX-style regex function
+ * wrappers around underlying PCRE library functions for httpd.
+ * 
+ * The original source file pcreposix.h is copyright and licensed as follows;
 
             Copyright (c) 1997-2004 University of Cambridge
 
@@ -77,7 +82,13 @@ extern "C" {
 #define AP_REG_NOMEM 0x20    /* nomem in our code */
 #define AP_REG_DOTALL 0x40   /* perl's /s flag */
 
-#define AP_REG_MATCH "MATCH_" /** suggested prefix for ap_regname */
+#define AP_REG_DOLLAR_ENDONLY 0x200 /* '$' matches at end of subject string only */
+
+#define AP_REG_NO_DEFAULT 0x400 /**< Don't implicitely add AP_REG_DEFAULT options */
+
+#define AP_REG_MATCH "MATCH_" /**< suggested prefix for ap_regname */
+
+#define AP_REG_DEFAULT (AP_REG_DOTALL|AP_REG_DOLLAR_ENDONLY)
 
 /* Error values: */
 enum {
@@ -101,6 +112,26 @@ typedef struct {
 } ap_regmatch_t;
 
 /* The functions */
+
+/**
+ * Get default compile flags
+ * @return Bitwise OR of AP_REG_* flags
+ */
+AP_DECLARE(int) ap_regcomp_get_default_cflags(void);
+
+/**
+ * Set default compile flags
+ * @param cflags Bitwise OR of AP_REG_* flags
+ */
+AP_DECLARE(void) ap_regcomp_set_default_cflags(int cflags);
+
+/**
+ * Get the AP_REG_* corresponding to the string.
+ * @param name The name (i.e. AP_REG_<name>)
+ * @return The AP_REG_*, or zero if the string is unknown
+ *
+ */
+AP_DECLARE(int) ap_regcomp_default_cflag_by_name(const char *name);
 
 /**
  * Compile a regular expression.
@@ -155,6 +186,8 @@ AP_DECLARE(apr_size_t) ap_regerror(int errcode, const ap_regex_t *preg,
  * Return an array of named regex backreferences
  * @param preg The precompiled regex
  * @param names The array to which the names will be added
+ * @param prefix An optional prefix to add to the returned names.  AP_REG_MATCH
+ * is the recommended prefix.
  * @param upper If non zero, uppercase the names
  */
 AP_DECLARE(int) ap_regname(const ap_regex_t *preg,

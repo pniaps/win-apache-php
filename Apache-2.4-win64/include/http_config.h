@@ -249,6 +249,8 @@ struct command_struct {
 #define NONFATAL_UNKNOWN 1024    /* Unrecognised directive */
 #define NONFATAL_ALL (NONFATAL_OVERRIDE|NONFATAL_UNKNOWN)
 
+#define PROXY_CONF 2048      /**< *.conf inside &lt;Proxy&gt; only */
+
 /** this directive can be placed anywhere */
 #define OR_ALL (OR_LIMIT|OR_OPTIONS|OR_FILEINFO|OR_AUTHCFG|OR_INDEXES)
 
@@ -329,6 +331,12 @@ struct cmd_parms_struct {
 };
 
 /**
+ * Flags associated with a module.
+ */
+#define AP_MODULE_FLAG_NONE         (0)
+#define AP_MODULE_FLAG_ALWAYS_MERGE (1 << 0)
+
+/**
  * Module structures.  Just about everything is dispatched through
  * these, directly or indirectly (through the command and handler
  * tables).
@@ -407,6 +415,9 @@ struct module_struct {
      *  @param p the pool to use for all allocations
      */
     void (*register_hooks) (apr_pool_t *p);
+
+    /** A bitmask of AP_MODULE_FLAG_* */
+    int flags;
 };
 
 /**
@@ -518,6 +529,21 @@ AP_DECLARE(void *) ap_get_module_config(const ap_conf_vector_t *cv,
  */
 AP_DECLARE(void) ap_set_module_config(ap_conf_vector_t *cv, const module *m,
                                       void *val);
+
+/**
+ * When module flags have been introduced, and a way to check this.
+ */
+#define AP_MODULE_FLAGS_MMN_MAJOR 20120211
+#define AP_MODULE_FLAGS_MMN_MINOR 70
+#define AP_MODULE_HAS_FLAGS(m) \
+        AP_MODULE_MAGIC_AT_LEAST(AP_MODULE_FLAGS_MMN_MAJOR, \
+                                 AP_MODULE_FLAGS_MMN_MINOR)
+/**
+ * Generic accessor for the module's flags
+ * @param m The module to get the flags from.
+ * @return The module-specific flags
+ */
+AP_DECLARE(int) ap_get_module_flags(const module *m);
 
 #if !defined(AP_DEBUG)
 
@@ -760,7 +786,7 @@ AP_DECLARE(void) ap_remove_module(module *m);
 AP_DECLARE(const char *) ap_add_loaded_module(module *mod, apr_pool_t *p,
                                               const char *s);
 /**
- * Remove a module fromthe chained modules list and the list of loaded modules
+ * Remove a module from the chained modules list and the list of loaded modules
  * @param mod the module structure of the module to remove
  */
 AP_DECLARE(void) ap_remove_loaded_module(module *mod);
@@ -881,7 +907,7 @@ AP_DECLARE(const char *) ap_build_cont_config(apr_pool_t *p,
  * @param conf_pool The pconf pool
  * @param temp_pool The temporary pool
  * @param conftree Place to store the root node of the config tree
- * @return Error string on erro, NULL otherwise
+ * @return Error string on error, NULL otherwise
  * @note If conf_pool == temp_pool, ap_build_config() will assume .htaccess
  *       context and use a lower maximum line length.
  */
@@ -902,6 +928,21 @@ AP_DECLARE(const char *) ap_walk_config(ap_directive_t *conftree,
                                         ap_conf_vector_t *section_vector);
 
 /**
+ * Convenience function to create a ap_dir_match_t structure from a cmd_parms.
+ *
+ * @param cmd The command.
+ * @param flags Flags to indicate whether optional or recursive.
+ * @param cb Callback for each file found that matches the wildcard. Return NULL on
+ *        success, an error string on error.
+ * @param ctx Context for the callback.
+ * @return Structure ap_dir_match_t with fields populated, allocated from the
+ *         cmd->temp_pool.
+ */
+AP_DECLARE(ap_dir_match_t *)ap_dir_cfgmatch(cmd_parms *cmd, int flags,
+        const char *(*cb)(ap_dir_match_t *w, const char *fname), void *ctx)
+        __attribute__((nonnull(1,3)));
+
+/**
  * @defgroup ap_check_cmd_context Check command context
  * @{
  */
@@ -920,10 +961,13 @@ AP_DECLARE(const char *) ap_check_cmd_context(cmd_parms *cmd,
 #define  NOT_IN_LOCATION        0x08 /**< Forbidden in &lt;Location&gt; */
 #define  NOT_IN_FILES           0x10 /**< Forbidden in &lt;Files&gt; or &lt;If&gt;*/
 #define  NOT_IN_HTACCESS        0x20 /**< Forbidden in .htaccess files */
+#define  NOT_IN_PROXY           0x40 /**< Forbidden in &lt;Proxy&gt; */
 /** Forbidden in &lt;Directory&gt;/&lt;Location&gt;/&lt;Files&gt;&lt;If&gt;*/
 #define  NOT_IN_DIR_LOC_FILE    (NOT_IN_DIRECTORY|NOT_IN_LOCATION|NOT_IN_FILES)
-/** Forbidden in &lt;VirtualHost&gt;/&lt;Limit&gt;/&lt;Directory&gt;/&lt;Location&gt;/&lt;Files&gt;/&lt;If&gt; */
-#define  GLOBAL_ONLY            (NOT_IN_VIRTUALHOST|NOT_IN_LIMIT|NOT_IN_DIR_LOC_FILE)
+/** Forbidden in &lt;Directory&gt;/&lt;Location&gt;/&lt;Files&gt;&lt;If&gt;&lt;Proxy&gt;*/
+#define  NOT_IN_DIR_CONTEXT     (NOT_IN_LIMIT|NOT_IN_DIR_LOC_FILE|NOT_IN_PROXY)
+/** Forbidden in &lt;VirtualHost&gt;/&lt;Limit&gt;/&lt;Directory&gt;/&lt;Location&gt;/&lt;Files&gt;/&lt;If&gt;&lt;Proxy&gt;*/
+#define  GLOBAL_ONLY            (NOT_IN_VIRTUALHOST|NOT_IN_DIR_CONTEXT)
 
 /** @} */
 
@@ -986,6 +1030,14 @@ AP_DECLARE(const char *) ap_setup_prelinked_modules(process_rec *process);
 AP_DECLARE(void) ap_show_directives(void);
 
 /**
+ * Returns non-zero if a configuration directive of the given name has
+ * been registered by a module at the time of calling.
+ * @param p Pool for temporary allocations
+ * @param name Directive name
+ */
+AP_DECLARE(int) ap_exists_directive(apr_pool_t *p, const char *name);
+
+/**
  * Show the preloaded module names.  Used for httpd -l.
  */
 AP_DECLARE(void) ap_show_modules(void);
@@ -1017,7 +1069,7 @@ AP_DECLARE(void) ap_run_rewrite_args(process_rec *process);
 
 /**
  * Run the register hooks function for a specified module
- * @param m The module to run the register hooks function fo
+ * @param m The module to run the register hooks function from
  * @param p The pool valid for the lifetime of the module
  */
 AP_DECLARE(void) ap_register_hooks(module *m, apr_pool_t *p);
@@ -1246,6 +1298,7 @@ AP_CORE_DECLARE(void *) ap_set_config_vectors(server_rec *server,
  * Run the header parser functions for each module
  * @param r The current request
  * @return OK or DECLINED
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(int,header_parser,(request_rec *r))
 
@@ -1255,6 +1308,7 @@ AP_DECLARE_HOOK(int,header_parser,(request_rec *r))
  * @param plog The logging streams pool
  * @param ptemp The temporary pool
  * @return OK or DECLINED on success anything else is a error
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(int,pre_config,(apr_pool_t *pconf,apr_pool_t *plog,
                                 apr_pool_t *ptemp))
@@ -1266,6 +1320,7 @@ AP_DECLARE_HOOK(int,pre_config,(apr_pool_t *pconf,apr_pool_t *plog,
  * @param ptemp The temporary pool
  * @param s the server to operate upon
  * @return OK or DECLINED on success anything else is a error
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(int,check_config,(apr_pool_t *pconf, apr_pool_t *plog,
                                   apr_pool_t *ptemp, server_rec *s))
@@ -1278,7 +1333,7 @@ AP_DECLARE_HOOK(int,check_config,(apr_pool_t *pconf, apr_pool_t *plog,
  * @note To avoid reordering problems due to different buffering, hook
  *       functions should only apr_file_*() to print to stdout/stderr and
  *       not simple printf()/fprintf().
- *     
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(void,test_config,(apr_pool_t *pconf, server_rec *s))
 
@@ -1289,6 +1344,7 @@ AP_DECLARE_HOOK(void,test_config,(apr_pool_t *pconf, server_rec *s))
  * @param ptemp The temporary pool
  * @param s The list of server_recs
  * @return OK or DECLINED on success anything else is a error
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(int,post_config,(apr_pool_t *pconf,apr_pool_t *plog,
                                  apr_pool_t *ptemp,server_rec *s))
@@ -1300,6 +1356,7 @@ AP_DECLARE_HOOK(int,post_config,(apr_pool_t *pconf,apr_pool_t *plog,
  * @param ptemp The temporary pool
  * @param s The list of server_recs
  * @return OK or DECLINED on success anything else is a error
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(int,open_logs,(apr_pool_t *pconf,apr_pool_t *plog,
                                apr_pool_t *ptemp,server_rec *s))
@@ -1308,6 +1365,7 @@ AP_DECLARE_HOOK(int,open_logs,(apr_pool_t *pconf,apr_pool_t *plog,
  * Run the child_init functions for each module
  * @param pchild The child pool
  * @param s The list of server_recs in this server
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(void,child_init,(apr_pool_t *pchild, server_rec *s))
 
@@ -1315,6 +1373,7 @@ AP_DECLARE_HOOK(void,child_init,(apr_pool_t *pchild, server_rec *s))
  * Run the handler functions for each module
  * @param r The request_rec
  * @remark non-wildcard handlers should HOOK_MIDDLE, wildcard HOOK_LAST
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(int,handler,(request_rec *r))
 
@@ -1328,6 +1387,7 @@ AP_DECLARE_HOOK(int,handler,(request_rec *r))
  * @param lookup_uri Controls whether the caller actually wants content or not.
  * lookup is set when the quick_handler is called out of
  * ap_sub_req_lookup_uri()
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(int,quick_handler,(request_rec *r, int lookup_uri))
 
@@ -1335,6 +1395,7 @@ AP_DECLARE_HOOK(int,quick_handler,(request_rec *r, int lookup_uri))
  * Retrieve the optional functions for each module.
  * This is run immediately before the server starts. Optional functions should
  * be registered during the hook registration phase.
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(void,optional_fn_retrieve,(void))
 
@@ -1351,6 +1412,7 @@ AP_DECLARE_HOOK(void,optional_fn_retrieve,(void))
  *         APR_ENOENT or APR_ENOTDIR if no htaccess file exists,
  *         AP_DECLINED to let later modules do the opening,
  *         any other error code on error.
+ * @ingroup hooks
  */
 AP_DECLARE_HOOK(apr_status_t,open_htaccess,
                 (request_rec *r, const char *dir_name, const char *access_name,
