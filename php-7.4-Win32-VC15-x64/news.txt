@@ -1,5 +1,363 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+01 Jul 2021, PHP 7.4.21
+
+- Core:
+  . Fixed bug #81068 (Double free in realpath_cache_clean()). (Dimitry Andric)
+  . Fixed bug #76359 (open_basedir bypass through adding ".."). (cmb)
+  . Fixed bug #81090 (Typed property performance degradation with .= operator).
+    (Nikita)
+  . Fixed bug #81070 (Integer underflow in memory limit comparison).
+    (Peter van Dommelen)
+  . Fixed bug #81122 (SSRF bypass in FILTER_VALIDATE_URL).
+    (CVE-2021-21705) (cmb)
+
+- Bzip2:
+  . Fixed bug #81092 (fflush before stream_filter_remove corrupts stream).
+    (cmb)
+
+- OpenSSL:
+  . Fixed bug #76694 (native Windows cert verification uses CN as sever name).
+    (cmb)
+
+- PDO_Firebird:
+  . Fixed bug #76448 (Stack buffer overflow in firebird_info_cb).
+    (CVE-2021-21704) (cmb)
+  . Fixed bug #76449 (SIGSEGV in firebird_handle_doer).
+    (CVE-2021-21704) (cmb)
+  . Fixed bug #76450 (SIGSEGV in firebird_stmt_execute).
+    (CVE-2021-21704) (cmb)
+  . Fixed bug #76452 (Crash while parsing blob data in firebird_fetch_blob).
+    (CVE-2021-21704) (cmb)
+
+- Standard:
+  . Fixed bug #81048 (phpinfo(INFO_VARIABLES) "Array to string conversion").
+    (cmb)
+
+03 Jun 2021, PHP 7.4.20
+
+- Core:
+  . Fixed bug #80929 (Method name corruption related to repeated calls to
+    call_user_func_array). (twosee)
+  . Fixed bug #80960 (opendir() warning wrong info when failed on Windows).
+    (cmb)
+  . Fixed bug #67792 (HTTP Authorization schemes are treated as case-sensitive).
+    (cmb)
+  . Fixed bug #80972 (Memory exhaustion on invalid string offset). (girgias)
+
+- FPM:
+  . Fixed bug #65800 (Events port mechanism). (psumbera)
+
+- FTP:
+  . Fixed bug #80901 (Info leak in ftp extension). (cmb)
+  . Fixed bug #79100 (Wrong FTP error messages). (cmb)
+
+- GD:
+  . Fixed bug #81032 (GD install is affected by external libgd installation).
+    (Flavio Heleno, cmb)
+
+- MBString:
+  . Fixed bug #81011 (mb_convert_encoding removes references from arrays). (cmb)
+
+- ODBC:
+  . Fixed bug #80460 (ODBC doesn't account for SQL_NO_TOTAL indicator). (cmb)
+
+- PDO_MySQL:
+  . Fixed bug #81037 (PDO discards error message text from prepared 
+    statement). (Kamil Tekiela)
+
+- PDO_ODBC:
+  . Fixed bug #44643 (bound parameters ignore explicit type definitions). (cmb)
+
+- pgsql:
+  . Fixed php_pgsql_fd_cast() wrt. php_stream_can_cast(). (cmb)
+
+- SPL:
+  . Fixed bug #80933 (SplFileObject::DROP_NEW_LINE is broken for NUL and CR).
+    (cmb, Nikita)
+
+- Opcache:
+  . Fixed bug #80900 (switch statement behavior inside function). (twosee)
+  . Fixed bug #81015 (Opcache optimization assumes wrong part of ternary
+    operator in if-condition). (Nikita)
+
+- XMLReader:
+  . Fixed bug #73246 (XMLReader: encoding length not checked). (cmb)
+
+- Zip:
+  . Fixed bug #80863 (ZipArchive::extractTo() ignores references). (cmb)
+
+06 May 2021, PHP 7.4.19
+
+- PDO_pgsql:
+  . Reverted bug fix for #80892 (PDO::PARAM_INT is treated the same as
+    PDO::PARAM_STR). (Matteo)
+
+
+29 Apr 2021, PHP 7.4.18
+
+- Core:
+  . Fixed bug #80781 (Error handler that throws ErrorException infinite loop).
+    (Nikita)
+  . Fixed bug #75776 (Flushing streams with compression filter is broken). (cmb)
+
+- Dba:
+  . Fixed bug #80817 (dba_popen() may cause segfault during RSHUTDOWN). (cmb)
+
+- DOM:
+  . Fixed bug #66783 (UAF when appending DOMDocument to element). (cmb)
+
+- FPM:
+  . Fixed bug #80024 (Duplication of info about inherited socket after pool
+    removing). (Jakub Zelenka)
+
+- FTP:
+  . Fixed bug #80880 (SSL_read on shutdown, ftp/proc_open). (cmb, Jakub
+    Zelenka)
+
+- Imap:
+  . Fixed bug #80710 (imap_mail_compose() header injection). (cmb, Stas)
+
+- Intl:
+  . Fixed bug #80763 (msgfmt_format() does not accept DateTime references).
+    (cmb)
+
+- LibXML:
+  . Fixed bug #51903 (simplexml_load_file() doesn't use HTTP headers). (cmb)
+  . Fixed bug #73533 (Invalid memory access in php_libxml_xmlCheckUTF8). (cmb)
+
+- MySQLnd:
+  . Fixed bug #80713 (SegFault when disabling ATTR_EMULATE_PREPARES and
+    MySQL 8.0). (Nikita)
+  . Fixed bug #80837 (Calling stmt_store_result after fetch doesn't throw an
+    error). (Kamil Tekiela)
+
+- Opcache:
+  . Fixed bug #80805 (create simple class and get error in opcache.so). (Nikita)
+  . Fixed bug #80950 (Variables become null in if statements). (Nikita)
+
+- Pcntl:
+  . Fixed bug #79812 (Potential integer overflow in pcntl_exec()). (cmb)
+
+- PCRE:
+  . Fixed bug #80866 (preg_split ignores limit flag when pattern with \K has
+    0-width fullstring match). (Kamil Tekiela)
+
+- PDO_ODBC:
+  . Fixed bug #80783 (PDO ODBC truncates BLOB records at every 256th byte).
+    (cmb)
+
+- PDO_pgsql:
+  . Fixed bug #80892 (PDO::PARAM_INT is treated the same as PDO::PARAM_STR).
+    (Matteo)
+
+- phpdbg:
+  . Fixed bug #80757 (Exit code is 0 when could not open file). (Felipe)
+
+- Session:
+  . Fixed bug #80774 (session_name() problem with backslash). (cmb)
+  . Fixed bug #80889 (Cannot set save handler when save_handler is invalid).
+    (cmb)
+
+- SOAP:
+  . Fixed bug #69668 (SOAP special XML characters in namespace URIs not
+    encoded). (cmb)
+
+- Standard:
+  . Fixed bug #78719 (http wrapper silently ignores long Location headers).
+    (cmb)
+  . Fixed bug #80771 (phpinfo(INFO_CREDITS) displays nothing in CLI). (cmb)
+  . Fixed bug #80838 (HTTP wrapper waits for HTTP 1 response after HTTP 101).
+    (manuelm)
+  . Fixed bug #80915 (Taking a reference to $_SERVER hides its values from
+    phpinfo()). (Rowan Tommins)
+
+04 Mar 2021, php 7.4.16
+
+- Core:
+  . Fixed #80706 (mail(): Headers after Bcc headers may be ignored). (cmb)
+
+- MySQLnd:
+  . Fixed bug #78680 (mysqlnd's mysql_clear_password does not transmit
+    null-terminated password). (Daniel Black)
+
+- MySQLi:
+  . Fixed bug #74779 (x() and y() truncating floats to integers). (cmb)
+
+- OPcache:
+  . Fixed bug #80682 (opcache doesn't honour pcre.jit option). (Remi)
+
+- OpenSSL:
+  . Fixed bug #80747 (Providing RSA key size < 512 generates key that crash
+    PHP). (Nikita)
+
+- Phar:
+  . Fixed bug #75850 (Unclear error message wrt. __halt_compiler() w/o
+    semicolon) (cmb)
+  . Fixed bug #70091 (Phar does not mark UTF-8 filenames in ZIP archives). (cmb)
+  . Fixed bug #53467 (Phar cannot compress large archives). (cmb, lserni)
+
+- SPL:
+  . Fixed bug#80719 (Iterating after failed ArrayObject::setIteratorClass()
+    causes Segmentation fault). (Nikita)
+
+- Standard:
+  . Fixed bug #80654 (file_get_contents() maxlen fails above (2**31)-1 bytes).
+    (cmb)
+
+- Zip:
+  . Fixed bug #80648 (Fix for bug 79296 should be based on runtime version).
+    (cmb, Remi)
+
+04 Feb 2021, PHP 7.4.15
+
+- Core:
+  . Fixed bug #80523 (bogus parse error on >4GB source code). (Nikita)
+  . Fixed bug #80384 (filter buffers entire read until file closed). (Adam
+    Seitz, cmb)
+
+- Curl:
+  . Fixed bug #80595 (Resetting POSTFIELDS to empty array breaks request). (cmb)
+
+- Date:
+  . Fixed bug #80376 (last day of the month causes runway cpu usage. (Derick)
+
+- MySQLi:
+  . Fixed bug #67983 (mysqlnd with MYSQLI_OPT_INT_AND_FLOAT_NATIVE fails to
+    interpret bit columns). (Nikita)
+  . Fixed bug #64638 (Fetching resultsets from stored procedure with cursor
+    fails). (Nikita)
+  . Fixed bug #72862 (segfault using prepared statements on stored procedures
+    that use a cursor). (Nikita)
+  . Fixed bug #77935 (Crash in mysqlnd_fetch_stmt_row_cursor when calling an SP
+    with a cursor). (Nikita)
+
+- Phar:
+  . Fixed bug #77565 (Incorrect locator detection in ZIP-based phars). (cmb)
+  . Fixed bug #69279 (Compressed ZIP Phar extractTo() creates garbage files).
+    (cmb)
+
+07 Jan 2021, PHP 7.4.14
+
+- Core:
+  . Fixed bug #74558 (Can't rebind closure returned by Closure::fromCallable()).
+    (cmb)
+  . Fixed bug #80345 (PHPIZE configuration has outdated PHP_RELEASE_VERSION).
+    (cmb)
+  . Fixed bug #72964 (White space not unfolded for CC/Bcc headers). (cmb)
+  . Fixed bug #80362 (Running dtrace scripts can cause php to crash).
+    (al at coralnet dot name)
+  . Fixed bug #80393 (Build of PHP extension fails due to configuration gap
+    with libtool). (kir dot morozov at gmail dot com)
+  . Fixed bug #80402 (configure filtering out -lpthread). (Nikita)
+  . Fixed bug #77069 (stream filter loses final block of data). (cmb)
+
+- Fileinfo:
+  . Fixed bug #77961 (finfo_open crafted magic parsing SIGABRT). (cmb)
+
+- FPM:
+  . Fixed bug #69625 (FPM returns 200 status on request without
+    SCRIPT_FILENAME env). (Jakub Zelenka)
+
+- Intl:
+  . Fixed bug #80425 (MessageFormatAdapter::getArgTypeList redefined). (Nikita)
+
+- OpenSSL:
+  . Fixed bug #80368 (OpenSSL extension fails to build against LibreSSL due to
+    lack of OCB support). (Nikita)
+
+- Phar:
+  . Fixed bug #73809 (Phar Zip parse crash - mmap fail). (cmb)
+  . Fixed bug #75102 (`PharData` says invalid checksum for valid tar). (cmb)
+  . Fixed bug #77322 (PharData::addEmptyDir('/') Possible integer overflow).
+    (cmb)
+
+- PDO MySQL:
+  . Fixed bug #80458 (PDOStatement::fetchAll() throws for upsert queries).
+    (Kamil Tekiela)
+  . Fixed bug #63185 (nextRowset() ignores MySQL errors with native prepared
+    statements). (Nikita)
+  . Fixed bug #78152 (PDO::exec() - Bad error handling with multiple commands).
+    (Nikita)
+  . Fixed bug #70066 (Unexpected "Cannot execute queries while other unbuffered
+    queries"). (Nikita)
+  . Fixed bug #71145 (Multiple statements in init command triggers unbuffered
+    query error). (Nikita)
+  . Fixed bug #76815 (PDOStatement cannot be GCed/closeCursor-ed when a
+    PROCEDURE resultset SIGNAL). (Nikita)
+
+- Standard:
+  . Fixed bug #77423 (FILTER_VALIDATE_URL accepts URLs with invalid userinfo).
+    (CVE-2020-7071) (cmb)
+  . Fixed bug #80366 (Return Value of zend_fstat() not Checked). (sagpant, cmb)
+  . Fixed bug #80411 (References to null-serialized object break serialize()).
+    (Nikita)
+
+- Tidy:
+  . Fixed bug #77594 (ob_tidyhandler is never reset). (cmb)
+
+- Zlib:
+  . Fixed #48725 (Support for flushing in zlib stream). (cmb)
+
+26 Nov 2020, PHP 7.4.13
+
+- Core:
+  . Fixed bug #80280 (ADD_EXTENSION_DEP() fails for ext/standard and ext/date).
+    (cmb)
+  . Fixed bug #80258 (Windows Deduplication Enabled, randon permission errors).
+    (cmb)
+
+- COM:
+  . Fixed bug #62474 (com_event_sink crashes on certain arguments). (cmb)
+
+- DOM:
+  . Fixed bug #80268 (loadHTML() truncates at NUL bytes). (cmb)
+
+- FFI:
+  . Fixed bug #79177 (FFI doesn't handle well PHP exceptions within callback).
+    (cmb, Dmitry, Nikita)
+
+- IMAP:
+  . Fixed bug #64076 (imap_sort() does not return FALSE on failure). (cmb)
+  . Fixed bug #76618 (segfault on imap_reopen). (girgias)
+  . Fixed bug #80239 (imap_rfc822_write_address() leaks memory). (cmb)
+  . Fixed minor regression caused by fixing bug #80220. (cmb)
+  . Fixed bug #80242 (imap_mail_compose() segfaults for multipart with rfc822).
+    (cmb)
+
+- MySQLi:
+  . Fixed bug #79375 (mysqli_store_result does not report error from lock wait
+    timeout). (Kamil Tekiela, Nikita)
+  . Fixed bug #76525 (mysqli::commit does not throw if MYSQLI_REPORT_ERROR
+    enabled and mysqlnd used). (Kamil Tekiela)
+  . Fixed bug #72413 (mysqlnd segfault (fetch_row second parameter
+    typemismatch)). (Kamil Tekiela)
+
+- ODBC:
+  . Fixed bug #44618 (Fetching may rely on uninitialized data). (cmb)
+
+- Opcache:
+  . Fixed bug #79643 (PHP with Opcache crashes when a file with specific name
+    is included). (twosee)
+  . Fixed run-time binding of preloaded dynamically declared function. (Dmitry)
+
+- OpenSSL:
+  . Fixed bug #79983 (openssl_encrypt / openssl_decrypt fail with OCB mode).
+    (Nikita)
+
+- PDO MySQL:
+  . Fixed bug #66528 (No PDOException or errorCode if database becomes
+    unavailable before PDO::commit). (Nikita)
+  . Fixed bug #65825 (PDOStatement::fetch() does not throw exception on broken
+    server connection). (Nikita)
+
+- SNMP:
+  . Fixed bug #70461 (disable md5 code when it is not supported in net-snmp).
+    (Alexander Bergmann, cmb)
+
+- Standard:
+  . Fixed bug #80266 (parse_url silently drops port number 0). (cmb, Nikita)
+
 29 Oct 2020, PHP 7.4.12
 
 - Core:
@@ -68,7 +426,7 @@ PHP                                                                        NEWS
   . Fixed bug #80048 (Bug #69100 has not been fixed for Windows). (cmb)
   . Fixed bug #80049 (Memleak when coercing integers to string via variadic
     argument). (Nikita)
-  . Fixed bug #79699 (PHP parses encoded cookie names so malicious `__Host-` 
+  . Fixed bug #79699 (PHP parses encoded cookie names so malicious `__Host-`
     cookies can be sent). (CVE-2020-7070) (Stas)
 
 - Calendar:
@@ -87,7 +445,7 @@ PHP                                                                        NEWS
     handlers changed). (SammyK)
 
 - OpenSSL:
-  . Fixed bug #79601 (Wrong ciphertext/tag in AES-CCM encryption for a 12 
+  . Fixed bug #79601 (Wrong ciphertext/tag in AES-CCM encryption for a 12
     bytes IV). (CVE-2020-7069) (Jakub Zelenka)
 
 - PDO:
@@ -169,7 +527,7 @@ PHP                                                                        NEWS
     (cmb)
 
 - Core:
-  . Fixed bug #79877 (getimagesize function silently truncates after a null 
+  . Fixed bug #79877 (getimagesize function silently truncates after a null
     byte) (cmb)
   . Fixed bug #79740 (serialize() and unserialize() methods can not be called
     statically). (Nikita)
@@ -230,7 +588,7 @@ PHP                                                                        NEWS
   . Fixed possibly unsupported timercmp() usage. (cmb)
 
 - Exif:
-  . Fixed bug #79687 (Sony picture - PHP Warning - Make, Model, MakerNotes). 
+  . Fixed bug #79687 (Sony picture - PHP Warning - Make, Model, MakerNotes).
     (cmb)
 
 - Fileinfo:
@@ -446,7 +804,7 @@ PHP                                                                        NEWS
   . Fixed bug #79014 (PHP-FPM & Primary script unknown). (Jakub Zelenka)
 
 - MBstring:
-  . Fixed bug #79371 (mb_strtolower (UTF-32LE): stack-buffer-overflow at 
+  . Fixed bug #79371 (mb_strtolower (UTF-32LE): stack-buffer-overflow at
     php_unicode_tolower_full). (CVE-2020-7065) (cmb)
 
 - MySQLi:
