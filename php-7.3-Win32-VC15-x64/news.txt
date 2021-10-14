@@ -1,8 +1,22 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+?? ??? ????, PHP 7.3.32
+
+
+23 Sep 2021, PHP 7.3.31
+
+- Zip:
+  . Fixed bug #81420 (ZipArchive::extractTo extracts outside of destination).
+    (cmb)
+
+26 Aug 2021, PHP 7.3.30
+
+- Phar:
+  . Fixed bug #81211: Symlinks are followed when creating PHAR archive (cmb)
+
 01 Jul 2021, PHP 7.3.29
 
-- Core: 
+- Core:
   . Fixed bug #81122: SSRF bypass in FILTER_VALIDATE_URL. (CVE-2021-21705) (cmb)
 
 - PDO_Firebird:
