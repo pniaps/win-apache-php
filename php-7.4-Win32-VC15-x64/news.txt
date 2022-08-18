@@ -1,5 +1,122 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+09 Jun 2022, PHP 7.4.30
+
+- mysqlnd:
+  . Fixed bug #81719: mysqlnd/pdo password buffer overflow. (CVE-2022-31626)
+    (c dot fol at ambionics dot io)
+
+- pgsql
+  . Fixed bug #81720: Uninitialized array in pg_query_params(). 
+    (CVE-2022-31625) (cmb)
+
+14 Apr 2022, PHP 7.4.29
+
+- Core:
+  . No source changes to this release.
+    Version number added for reproduction of Windows builds.
+
+- Date:
+  . Updated to latest IANA timezone database (2022a). (Derick)
+
+17 Feb 2022, PHP 7.4.28
+
+- Filter:
+  . Fix #81708: UAF due to php_filter_float() failing for ints
+
+
+16 Dec 2021, PHP 7.4.27
+
+- Core:
+  . Fixed bug #81626 (Error on use static:: in __сallStatic() wrapped to
+    Closure::fromCallable()). (Nikita)
+
+- FPM:
+  . Fixed bug #81513 (Future possibility for heap overflow in FPM zlog).
+    (Jakub Zelenka)
+
+- GD:
+  . Fixed bug #71316 (libpng warning from imagecreatefromstring). (cmb)
+
+- OpenSSL:
+  . Fixed bug #75725 (./configure: detecting RAND_egd). (Dilyan Palauzov)
+
+- PCRE:
+  . Fixed bug #74604 (Out of bounds in php_pcre_replace_impl). (cmb, Dmitry)
+
+- Standard:
+  . Fixed bug #81618 (dns_get_record fails on FreeBSD for missing type).
+    (fsbruva)
+  . Fixed bug #81659 (stream_get_contents() may unnecessarily overallocate).
+    (cmb)
+
+18 Nov 2021, PHP 7.4.26
+
+- Core:
+  . Fixed bug #81518 (Header injection via default_mimetype / default_charset).
+    (cmb)
+
+- Date:
+  . Fixed bug #81500 (Interval serialization regression since 7.3.14 / 7.4.2).
+    (cmb)
+
+- DBA:
+  . Fixed bug #81588 (TokyoCabinet driver leaks memory). (girgias)
+
+- MBString:
+  . Fixed bug #76167 (mbstring may use pointer from some previous request).
+    (cmb, cataphract)
+
+- MySQLi:
+  . Fixed bug #81494 (Stopped unbuffered query does not throw error). (Nikita)
+
+- PCRE:
+  . Fixed bug #81424 (PCRE2 10.35 JIT performance regression). (cmb)
+
+- Streams:
+  . Fixed bug #54340 (Memory corruption with user_filter). (Nikita)
+
+- XML:
+  . Fixed bug #79971 (special character is breaking the path in xml function).
+    (CVE-2021-21707) (cmb)
+
+21 Oct 2021, PHP 7.4.25
+
+- DOM:
+  . Fixed bug #81433 (DOMElement::setIdAttribute() called twice may remove ID).
+    (Viktor Volkov)
+
+- FFI:
+  . Fixed bug #79576 ("TYPE *" shows unhelpful message when type is not
+    defined). (Dmitry)
+
+- Fileinfo:
+  . Fixed bug #78987 (High memory usage during encoding detection). (Anatol)
+
+- Filter:
+  . Fixed bug #61700 (FILTER_FLAG_IPV6/FILTER_FLAG_NO_PRIV|RES_RANGE failing).
+    (cmb, Nikita)
+
+- FPM:
+  . Fixed bug #81026 (PHP-FPM oob R/W in root process leading to privilege
+    escalation) (CVE-2021-21703). (Jakub Zelenka)
+
+- SPL:
+  . Fixed bug #80663 (Recursive SplFixedArray::setSize() may cause double-free).
+    (cmb, Nikita, Tyson Andre)
+
+- Streams:
+  . Fixed bug #81475 (stream_isatty emits warning with attached stream wrapper).
+    (cmb)
+
+- XML:
+  . Fixed bug #70962 (XML_OPTION_SKIP_WHITE strips embedded whitespace).
+    (Aliaksandr Bystry, cmb)
+
+- Zip:
+  . Fixed bug #81490 (ZipArchive::extractTo() may leak memory). (cmb, Remi)
+  . Fixed bug #77978 (Dirname ending in colon unzips to wrong dir). (cmb)
+
 23 Sep 2021, PHP 7.4.24
 
 - Core:
@@ -107,12 +224,13 @@ PHP                                                                        NEWS
 01 Jul 2021, PHP 7.4.21
 
 - Core:
-  . Fixed bug #81068 (Double free in realpath_cache_clean()). (Dimitry Andric)
   . Fixed bug #76359 (open_basedir bypass through adding ".."). (cmb)
-  . Fixed bug #81090 (Typed property performance degradation with .= operator).
-    (Nikita)
+  . Fixed bug #81068 (Double free in realpath_cache_clean()). (Dimitry Andric)
   . Fixed bug #81070 (Integer underflow in memory limit comparison).
     (Peter van Dommelen)
+  . Fixed bug #81090 (Typed property performance degradation with .= operator).
+    (Nikita)
+  . Fixed bug #81122: SSRF bypass in FILTER_VALIDATE_URL. (CVE-2021-21705) (cmb)
 
 - Bzip2:
   . Fixed bug #81092 (fflush before stream_filter_remove corrupts stream).
@@ -121,6 +239,14 @@ PHP                                                                        NEWS
 - OpenSSL:
   . Fixed bug #76694 (native Windows cert verification uses CN as sever name).
     (cmb)
+
+- PDO_Firebird:
+  . Fixed bug #76448: Stack buffer overflow in firebird_info_cb.
+    (CVE-2021-21704) (cmb)
+  . Fixed bug #76449: SIGSEGV in firebird_handle_doer. (CVE-2021-21704) (cmb)
+  . Fixed bug #76450: SIGSEGV in firebird_stmt_execute. (CVE-2021-21704) (cmb)
+  . Fixed bug #76452: Crash while parsing blob data in firebird_fetch_blob.
+    (CVE-2021-21704) (cmb)
 
 - Standard:
   . Fixed bug #81048 (phpinfo(INFO_VARIABLES) "Array to string conversion").
