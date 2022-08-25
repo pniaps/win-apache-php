@@ -1,5 +1,449 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+02 Aug 2022, PHP 8.0.22
+
+- CLI:
+  . Fixed potential overflow for the builtin server via the PHP_CLI_SERVER_WORKERS
+    environment variable. (yiyuaner)
+
+- Core:
+  . Fixed bug GH-8923 (error_log on Windows can hold the file write lock). (cmb)
+  . Fixed bug GH-8995 (WeakMap object reference offset causing TypeError).
+    (Tobias Bachert)
+
+- Date:
+  . Fixed bug #80047 (DatePeriod doesn't warn with custom DateTimeImmutable).
+    (Derick)
+
+- DBA:
+  . Fixed LMDB driver hanging when attempting to delete a non-existing key
+    (Girgias)
+
+- FPM:
+  . Fixed zlog message prepend, free on incorrect address. (Heiko Weber)
+  . Fixed possible double free on configuration loading failure. (Heiko Weber).
+
+- GD:
+  . Fixed bug GH-8848 (imagecopyresized() error refers to the wrong argument).
+    (cmb)
+
+- Intl:
+  . Fixed build for ICU 69.x and onwards. (David Carlier)
+
+- OPcache:
+  . Fixed bug GH-8847 (PHP hanging infinitly at 100% cpu when check php
+    syntaxe of a valid file). (Dmitry)
+
+- Standard:
+  . Fixed the crypt_sha256/512 api build with clang > 12. (David Carlier)
+  . Uses CCRandomGenerateBytes instead of arc4random_buf on macOs. (David Carlier).
+
+07 Jul 2022, PHP 8.0.21
+
+- Core:
+  . Fixed potential use after free in php_binary_init(). (Heiko Weber)
+
+- CLI:
+  . Fixed GH-8827 (Intentionally closing std handles no longer possible). (cmb)
+
+- COM:
+  . Fixed bug GH-8778 (Integer arithmethic with large number variants fails).
+    (cmb)
+
+- Curl:
+  . Fixed CURLOPT_TLSAUTH_TYPE is not treated as a string option. (Pierrick)
+
+- Date:
+  . Fixed bug #74671 (DST timezone abbreviation has incorrect offset). (Derick)
+  . Fixed bug #77243 (Weekdays are calculated incorrectly for negative years).
+    (Derick)
+  . Fixed bug #78139 (timezone_open accepts invalid timezone string argument).
+    (Derick)
+
+- FPM:
+  . Fixed bug #67764 (fpm: syslog.ident don't work). (Jakub Zelenka)
+
+- MBString:
+  . Fixed bug GH-8685 (pcre not ready at mbstring startup). (Remi)
+
+- ODBC:
+  . Fixed handling of single-key connection strings. (Calvin Buckley)
+
+- OpenSSL:
+  . Fixed bug #50293 (Several openssl functions ignore the VCWD).
+    (Jakub Zelenka, cmb)
+  . Fixed bug #81713 (NULL byte injection in several OpenSSL functions working
+    with certificates). (Jakub Zelenka)
+
+- PDO_ODBC:
+  . Fixed errorInfo() result on successful PDOStatement->execute(). (Yurunsoft)
+  . Fixed handling of single-key connection strings. (Calvin Buckley)
+
+- Zip:
+  . Fixed bug GH-8781 (ZipArchive::close deletes zip file without updating stat
+    cache). (Remi)
+
+09 Jun 2022, PHP 8.0.20
+
+- CLI:
+  . Fixed bug GH-8575 (CLI closes standard streams too early). (Levi Morrison)
+
+- Core:
+  . Fixed Haiku ZTS builds. (David Carlier)
+
+- Date:
+  . Fixed bug #72963 (Null-byte injection in CreateFromFormat and related
+    functions). (Derick)
+  . Fixed bug GH-8471 (Segmentation fault when converting immutable and mutable
+    DateTime instances created using reflection). (Derick)
+
+- FPM:
+  . Fixed ACL build check on MacOS. (David Carlier)
+  . Fixed bug #72185: php-fpm writes empty fcgi record causing nginx 502.
+    (Jakub Zelenka, loveharmful)
+  . Fixes use after free. (Heiko Weber).
+
+- Mysqlnd:
+  . Fixed bug #81719: mysqlnd/pdo password buffer overflow. (CVE-2022-31626)
+    (c dot fol at ambionics dot io)
+
+- OPcache:
+  . Fixed bug GH-8466 (ini_get() is optimized out when the option does not
+    exist). (Arnaud)
+
+- Pgsql:
+  . Fixed bug #81720: Uninitialized array in pg_query_params().
+    (CVE-2022-31625) (cmb)
+
+- Pcntl:
+  . Fixed Haiku build. (David Carlier)
+
+- Soap:
+  . Fixed bug GH-8578 (Error on wrong parameter on SoapHeader constructor).
+    (robertnisipeanu)
+  . Fixed bug GH-8538 (SoapClient may strip parts of nmtokens). (cmb)
+
+- SPL:
+  . Fixed bug GH-8235 (iterator_count() may run indefinitely). (cmb)
+
+- Zip:
+  . Fixed type for index in ZipArchive::replaceFile. (Martin Rehberger)
+
+12 May 2022, PHP 8.0.19
+
+- Core:
+  . Fixed bug GH-8289 (Exceptions thrown within a yielded from iterator are
+    not rethrown into the generator). (Bob)
+
+- Date:
+  . Fixed bug GH-7979 (DatePeriod iterator advances when checking if valid).
+    (Derick, Cody Mann)
+
+- FFI:
+  . Fixed bug GH-8433 (Assigning function pointers to structs in FFI leaks).
+    (Bob)
+
+- FPM:
+  . Fixed bug #76003 (FPM /status reports wrong number of active processe).
+    (Jakub Zelenka)
+  . Fixed bug #77023 (FPM cannot shutdown processes). (Jakub Zelenka)
+  . Fixed comment in kqueue remove callback log message. (David Carlier)
+
+- Iconv:
+  . Fixed bug GH-8218 (ob_end_clean does not reset Content-Encoding header).
+    (cmb)
+
+- Intl:
+  . Fixed bug GH-8364 (msgfmt_format $values may not support references). (cmb)
+
+- MySQLi:
+  . Fixed bug GH-8267 (MySQLi uses unsupported format specifier on Windows).
+    (cmb)
+
+- SPL:
+  . Fixed bug GH-8366 (ArrayIterator may leak when calling __construct()).
+    (cmb)
+  . Fixed bug GH-8273 (SplFileObject: key() returns wrong value). (Girgias)
+
+- Streams:
+  . Fixed php://temp does not preserve file-position when switched to temporary
+    file. (Bernd Holzmüller)
+
+- zlib:
+  . Fixed bug GH-8218 (ob_end_clean does not reset Content-Encoding header).
+    (cmb)
+
+14 Apr 2022, PHP 8.0.18
+
+- Core:
+  . Fixed freeing of internal attribute arguments. (Bob)
+  . Fixed bug GH-8070 (memory leak of internal function attribute hash).
+    (Tim Düsterhus)
+  . Fixed bug GH-8160 (ZTS support on Alpine is broken). (Michael Voříšek)
+  . Fixed potential race condition during resource ID allocation. (ryancaicse)
+
+- Filter:
+  . Fixed signedness confusion in php_filter_validate_domain(). (cmb)
+
+- Hash:
+  . Fixed bug #81714 (segfault when serializing finalized HashContext). (cmb)
+
+- Intl:
+  . Fixed bug GH-8142 (Compilation error on cygwin). (David Carlier)
+
+- MBString:
+  . Fixed bug GH-8208 (mb_encode_mimeheader: $indent functionality broken).
+    (cmb)
+
+- MySQLi:
+  . Fixed bug GH-8068 (mysqli_fetch_object creates inaccessible properties).
+    (cmb)
+
+- Pcntl:
+  . Fixed bug GH-8142 (Compilation error on cygwin). (David Carlier)
+
+- PgSQL:
+  . Fixed result_type related stack corruption on LLP64 architectures. (cmb)
+  . Fixed bug GH-8253 (pg_insert() fails for references). (cmb)
+
+- Sockets:
+  . Fixed Solaris builds. (David Carlier)
+  . Fix undefined behavior in php_set_inet6_addr. (ilutov)
+
+- SPL:
+  . Fixed bug GH-8121 (SplFileObject - seek and key with csv file inconsistent).
+    (cmb)
+
+- Standard:
+  . Fixed bug GH-8048 (Force macOS to use statfs). (risner)
+
+17 Mar 2022, PHP 8.0.17
+
+- Core:
+  . Fixed Haiku ZTS build. (David Carlier)
+
+- GD:
+  . Fixed libpng warning when loading interlaced images. (Brett)
+
+- FPM:
+  . Fixed bug #76109 (Unsafe access to fpm scoreboard).
+    (Till Backhaus, Jakub Zelenka)
+
+- Iconv:
+  . Fixed bug GH-7953 (ob_clean() only does not set Content-Encoding). (cmb)
+  . Fixed bug GH-7980 (Unexpected result for iconv_mime_decode). (cmb)
+
+- MySQLnd:
+  . Fixed bug GH-8058 (NULL pointer dereference in mysqlnd package). (Kamil Tekiela)
+
+- OPcache:
+  . Fixed bug GH-8074 (Wrong type inference of range() result). (cmb)
+
+- Reflection:
+  . Fixed bug GH-8080 (ReflectionClass::getConstants() depends on def. order).
+    (cmb)
+  . Fixed bug GH-8421 (Closures should accept attributes with
+    Attribute::TARGET_FUNCTION). (ollieread)
+
+- Zlib:
+  . Fixed bug GH-7953 (ob_clean() only does not set Content-Encoding). (cmb)
+
+17 Feb 2022, PHP 8.0.16
+
+- Core:
+  . Fixed bug #81430 (Attribute instantiation leaves dangling pointer).
+    (beberlei)
+  . Fixed bug GH-7896 (Environment vars may be mangled on Windows). (cmb)
+
+- FFI:
+  . Fixed bug GH-7867 (FFI::cast() from pointer to array is broken). (cmb,
+    dmitry)
+
+- Filter:
+  . Fix #81708: UAF due to php_filter_float() failing for ints.
+    (CVE-2021-21708) (stas)
+
+- FPM:
+  . Fixed memory leak on invalid port. (David Carlier)
+
+- MBString:
+  . Fixed bug GH-7902 (mb_send_mail may delimit headers with LF only). (cmb)
+
+- MySQLnd:
+  . Fixed bug GH-7972 (MariaDB version prefix 5.5.5- is not stripped). (Kamil Tekiela)
+
+- Sockets:
+  . Fixed ext/sockets build on Haiku. (David Carlier)
+  . Fixed bug GH-7978 (sockets extension compilation errors). (David Carlier)
+
+- Standard:
+  . Fixed bug GH-7875 (mails are sent even if failure to log throws exception).
+    (cmb)
+
+20 Jan 2022, PHP 8.0.15
+
+- Core:
+  . Fixed bug #81656 (GCC-11 silently ignores -R). (Michael Wallner)
+  . Fixed bug #81585 (cached_chunks are not counted to real_size on shutdown).
+    (cmb)
+
+- Filter:
+  . Fixed FILTER_FLAG_NO_RES_RANGE flag. (Yifan Tong)
+
+- Hash:
+  . Fixed bug GH-7759 (Incorrect return types for hash() and hash_hmac()).
+    (cmb)
+  . Fixed bug GH-7826 (Inconsistent argument name in hash_hmac_file and
+    hash_file). (cmb)
+
+- MySQLnd:
+  . Fixed bug where large bigints may be truncated. (Nathan Freeman, cmb)
+
+- OCI8:
+  . Fixed bug GH-7765 (php_oci_cleanup_global_handles segfaults at second
+    call). (cmb)
+
+- OPcache:
+  . Fixed bug #81679 (Tracing JIT crashes on reattaching). (cmb)
+
+- PDO_PGSQL:
+  . Fixed error message allocation of PDO PgSQL. (SATO Kentaro)
+
+- Sockets:
+  . Avoid void* arithmetic in sockets/multicast.c on NetBSD. (David Carlier)
+
+- Spl:
+  . Fixed bug #75917 (SplFileObject::seek broken with CSV flags). (Aliaksandr
+    Bystry)
+
+16 Dec 2021, PHP 8.0.14
+
+- Core:
+  . Fixed bug #81582 (Stringable not implicitly declared if __toString() came
+    from a trait). (Nikita)
+  . Fixed bug #81591 (Fatal Error not properly logged in particular cases).
+    (Nikita)
+  . Fixed bug #81626 (Error on use static:: in __сallStatic() wrapped to
+    Closure::fromCallable()). (Nikita)
+  . Fixed bug #81631 (::class with dynamic class name may yield wrong line
+    number). (Nikita)
+
+- FPM:
+  . Fixed bug #81513 (Future possibility for heap overflow in FPM zlog).
+    (Jakub Zelenka)
+
+- GD:
+  . Fixed bug #71316 (libpng warning from imagecreatefromstring). (cmb)
+
+- IMAP:
+  . Fixed bug #81649 (imap_(un)delete accept sequences, not single numbers).
+    (cmb)
+
+- OpenSSL:
+  . Fixed bug #75725 (./configure: detecting RAND_egd). (Dilyan Palauzov)
+
+- PCRE:
+  . Fixed bug #74604 (Out of bounds in php_pcre_replace_impl). (cmb, Dmitry)
+
+- SPL:
+  . Fixed bug #81587 (MultipleIterator Segmentation fault w/ SimpleXMLElement
+    attached). (Nikita)
+
+- Standard:
+  . Fixed bug #81618 (dns_get_record fails on FreeBSD for missing type).
+    (fsbruva)
+  . Fixed bug #81659 (stream_get_contents() may unnecessarily overallocate).
+    (cmb)
+
+18 Nov 2021, PHP 8.0.13
+
+- Core:
+  . Fixed bug #81518 (Header injection via default_mimetype / default_charset).
+    (cmb)
+
+- Date:
+  . Fixed bug #81500 (Interval serialization regression since 7.3.14 / 7.4.2).
+    (cmb)
+
+- DBA:
+  . Fixed bug #81588 (TokyoCabinet driver leaks memory). (girgias)
+
+- MBString:
+  . Fixed bug #76167 (mbstring may use pointer from some previous request).
+    (cmb, cataphract)
+
+- Opcache:
+  . Fixed bug #81512 (Unexpected behavior with arrays and JIT). (Dmitry)
+  . Fixed bug #81652 (The value of error_reporting() gets overridden). (Nikita)
+
+- PCRE:
+  . Fixed bug #81424 (PCRE2 10.35 JIT performance regression). (cmb)
+
+- XML:
+  . Fixed bug #79971 (special character is breaking the path in xml function).
+    (CVE-2021-21707) (cmb)
+
+- XMLReader:
+  . Fixed bug #81521 (XMLReader::getParserProperty may throw with a valid
+    property). (Nikita)
+
+21 Oct 2021, PHP 8.0.12
+
+- CLI:
+  . Fixed bug #81496 (Server logs incorrect request method). (lauri)
+
+- Core:
+  . Fixed bug #81435 (Observer current_observed_frame may point to an old
+    (overwritten) frame). (Bob)
+  . Fixed bug #81380 (Observer may not be initialized properly). (krakjoe)
+
+- DOM:
+  . Fixed bug #81433 (DOMElement::setIdAttribute() called twice may remove ID).
+    (Viktor Volkov)
+
+- FFI:
+  . Fixed bug #79576 ("TYPE *" shows unhelpful message when type is not
+    defined). (Dmitry)
+
+- Fileinfo:
+  . Fixed bug #78987 (High memory usage during encoding detection). (Anatol)
+
+- Filter:
+  . Fixed bug #61700 (FILTER_FLAG_IPV6/FILTER_FLAG_NO_PRIV|RES_RANGE failing).
+    (cmb, Nikita)
+
+- FPM:
+  . Fixed bug #81026 (PHP-FPM oob R/W in root process leading to privilege
+    escalation) (CVE-2021-21703). (Jakub Zelenka)
+
+- Opcache:
+  . Fixed bug #81472 (Cannot support large linux major/minor device number when
+    read /proc/self/maps). (Lin Yang)
+
+- Reflection:
+  . ReflectionAttribute is no longer final. (sasezaki)
+
+- SPL:
+  . Fixed bug #80663 (Recursive SplFixedArray::setSize() may cause double-free).
+    (cmb, Nikita, Tyson Andre)
+  . Fixed bug #81477 (LimitIterator + SplFileObject regression in 8.0.1). (cmb)
+
+- Standard:
+  . Fixed bug #69751 (Change Error message of sprintf/printf for missing/typo
+    position specifier). (Aliaksandr Bystry)
+
+- Streams:
+  . Fixed bug #81475 (stream_isatty emits warning with attached stream wrapper).
+    (cmb)
+
+- XML:
+  . Fixed bug #70962 (XML_OPTION_SKIP_WHITE strips embedded whitespace).
+    (Aliaksandr Bystry, cmb)
+
+- Zip:
+  . Fixed bug #81490 (ZipArchive::extractTo() may leak memory). (cmb, Remi)
+  . Fixed bug #77978 (Dirname ending in colon unzips to wrong dir). (cmb)
+
 23 Sep 2021, PHP 8.0.11
 
 - Core:
@@ -32,7 +476,7 @@ PHP                                                                        NEWS
 - Zip:
   . Fixed bug #80833 (ZipArchive::getStream doesn't use setPassword). (Remi)
   . Fixed bug #81420 (ZipArchive::extractTo extracts outside of destination).
-    (cmb)
+    (CVE-2021-21706) (cmb)
 
 26 Aug 2021, PHP 8.0.10
 
@@ -146,6 +590,7 @@ PHP                                                                        NEWS
     (Nikita)
   . Fixed bug #81070 (Integer underflow in memory limit comparison).
     (Peter van Dommelen)
+  . Fixed bug #81122: SSRF bypass in FILTER_VALIDATE_URL. (CVE-2021-21705) (cmb)
 
 - Bzip2:
   . Fixed bug #81092 (fflush before stream_filter_remove corrupts stream).
@@ -158,6 +603,9 @@ PHP                                                                        NEWS
 - GMP:
   . Fixed bug #81119 (GMP operators throw errors with wrong parameter names).
     (Nikita)
+
+- MySQLnd:
+  . Fixed bug #80761 (PDO uses too much memory). (Nikita)
 
 - OCI8:
   . Fixed bug #81088 (error in regression test for oci_fetch_object() and
@@ -172,8 +620,13 @@ PHP                                                                        NEWS
   . Fixed bug #76694 (native Windows cert verification uses CN as sever name).
     (cmb)
 
-- MySQLnd:
-  . Fixed bug #80761 (PDO uses too much memory). (Nikita)
+- PDO_Firebird:
+  . Fixed bug #76448: Stack buffer overflow in firebird_info_cb.
+    (CVE-2021-21704) (cmb)
+  . Fixed bug #76449: SIGSEGV in firebird_handle_doer. (CVE-2021-21704) (cmb)
+  . Fixed bug #76450: SIGSEGV in firebird_stmt_execute. (CVE-2021-21704) (cmb)
+  . Fixed bug #76452: Crash while parsing blob data in firebird_fetch_blob.
+    (CVE-2021-21704) (cmb)
 
 - readline:
   . Fixed bug #72998 (invalid read in readline completion). (krakjoe)
