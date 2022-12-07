@@ -11,7 +11,7 @@ This is my local apache server with different php versions.
  - PHP Version 7.1.33
  - PHP Version 7.2.34
  - PHP Version 7.3.33
- - PHP Version 7.4.30
+ - PHP Version 7.4.33
  - PHP Version 8.0.22
  - PHP Version 8.1.9 (default)
 
@@ -34,7 +34,7 @@ Each version of php is used in a virtualhost:
  - virtualhost `php71` uses PHP Version 7.1.33
  - virtualhost `php72` uses PHP Version 7.2.34
  - virtualhost `php73` uses PHP Version 7.3.33
- - virtualhost `php74` uses PHP Version 7.4.30
+ - virtualhost `php74` uses PHP Version 7.4.33
  - virtualhost `php80` uses PHP Version 8.0.22
  - virtualhost `php81` uses PHP Version 8.1.9
  - All other hosts uses PHP Version 8.1.9

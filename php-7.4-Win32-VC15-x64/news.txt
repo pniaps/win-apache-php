@@ -1,5 +1,23 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+03 Nov 2022, PHP 7.4.33
+
+- GD:
+  . Fixed bug #81739: OOB read due to insufficient input validation in
+    imageloadfont(). (CVE-2022-31630) (cmb)
+
+- Hash:
+  . Fixed bug #81738: buffer overflow in hash_update() on long parameter. 
+    (CVE-2022-37454) (nicky at mouha dot be)
+
+29 Sep 2022, PHP 7.4.32
+
+- Core:
+  . Fixed bug #81726: phar wrapper: DOS when using quine gzip file.
+    (CVE-2022-31628). (cmb)
+  . Fixed bug #81727: Don't mangle HTTP variable names that clash with ones
+    that have a specific semantic meaning. (CVE-2022-31629). (Derick)
+
 09 Jun 2022, PHP 7.4.30
 
 - mysqlnd:
@@ -23,7 +41,7 @@ PHP                                                                        NEWS
 
 - Filter:
   . Fix #81708: UAF due to php_filter_float() failing for ints
-
+    (CVE-2021-21708) (stas)
 
 16 Dec 2021, PHP 7.4.27
 
