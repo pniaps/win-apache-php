@@ -160,7 +160,7 @@ AP_DECLARE(const char *) ap_document_root(request_rec *r);
 
 /**
  * Lookup the remote user agent's DNS name or IP address
- * @ingroup get_remote_hostname
+ * @ingroup get_remote_host
  * @param req The current request
  * @param type The type of lookup to perform.  One of:
  * <pre>
@@ -252,6 +252,13 @@ AP_DECLARE(const char *) ap_get_server_name_for_url(request_rec *r);
  * @return The server's port
  */
 AP_DECLARE(apr_port_t) ap_get_server_port(const request_rec *r);
+
+/**
+ * Get the size of read buffers
+ * @param r The current request
+ * @return The read buffers size
+ */
+AP_DECLARE(apr_size_t) ap_get_read_buf_size(const request_rec *r);
 
 /**
  * Return the limit on bytes in request msg body
@@ -482,12 +489,13 @@ typedef unsigned int overrides_t;
  */
 typedef unsigned long etag_components_t;
 
-#define ETAG_UNSET 0
-#define ETAG_NONE  (1 << 0)
-#define ETAG_MTIME (1 << 1)
-#define ETAG_INODE (1 << 2)
-#define ETAG_SIZE  (1 << 3)
-#define ETAG_ALL   (ETAG_MTIME | ETAG_INODE | ETAG_SIZE)
+#define ETAG_UNSET  0
+#define ETAG_NONE   (1 << 0)
+#define ETAG_MTIME  (1 << 1)
+#define ETAG_INODE  (1 << 2)
+#define ETAG_SIZE   (1 << 3)
+#define ETAG_DIGEST (1 << 4)
+#define ETAG_ALL    (ETAG_MTIME | ETAG_INODE | ETAG_SIZE)
 /* This is the default value used */
 #define ETAG_BACKWARD (ETAG_MTIME | ETAG_SIZE)
 
@@ -672,6 +680,8 @@ typedef struct {
 
     /** Table of rules for building CGI variables, NULL if none configured */
     apr_hash_t *cgi_var_rules;
+
+    apr_size_t read_buf_size;
 } core_dir_config;
 
 /* macro to implement off by default behaviour */
@@ -741,6 +751,10 @@ typedef struct {
 #define AP_HTTP_METHODS_REGISTERED    2
     char http_methods;
     unsigned int merge_slashes;
+ 
+    apr_size_t   flush_max_threshold;
+    apr_int32_t  flush_max_pipelined;
+    unsigned int strict_host_check;
 } core_server_config;
 
 /* for AddOutputFiltersByType in core.c */
@@ -768,6 +782,11 @@ AP_DECLARE(void) ap_set_server_protocol(server_rec* s, const char* proto);
 
 typedef struct core_output_filter_ctx core_output_filter_ctx_t;
 typedef struct core_filter_ctx        core_ctx_t;
+
+struct core_filter_ctx {
+    apr_bucket_brigade *b;
+    apr_bucket_brigade *tmpbb;
+};
 
 typedef struct core_net_rec {
     /** Connection to the client */
