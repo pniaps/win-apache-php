@@ -1,5 +1,23 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+14 Feb 2023, PHP 8.0.28
+
+- Core:
+  . Fixed bug #81744 (Password_verify() always return true with some hash).
+    (CVE-2023-0567). (Tim Düsterhus)
+  . Fixed bug #81746 (1-byte array overrun in common path resolve code). 
+    (CVE-2023-0568). (Niels Dossche)
+
+- SAPI:
+  . Fixed bug GHSA-54hq-v5wp-fqgv (DOS vulnerability when parsing multipart
+    request body). (CVE-2023-0662) (Jakub Zelenka)
+
+05 Jan 2023, PHP 8.0.27
+
+- PDO/SQLite:
+  . Fixed bug #81740 (PDO::quote() may return unquoted string). (CVE-2022-31631) 
+    (cmb)
+
 24 Nov 2022, PHP 8.0.26
 
 - CLI:
@@ -21,6 +39,8 @@ PHP                                                                        NEWS
 - FPM:
   . Fixed bug GH-9754 (SaltStack (using Python subprocess) hangs when running
     php-fpm 8.1.11). (Jakub Zelenka)
+  . Fixed bug GH-9959 (Solaris port event mechanism is still broken after bug
+    #66694). (Petr Sumbera)
 
 - mysqli:
   . Fixed bug GH-9841 (mysqli_query throws warning despite using
