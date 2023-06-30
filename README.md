@@ -88,3 +88,13 @@ git pull
 sc start Apache2.4  
 ```
 Yoy can also run `update.bat` as administrator.
+
+### Development SSL Support
+
+If you need SSL support for development purposes, just execute `certs\install.bat` and it will enable HTTPS support for `localhost` and `php71` an above thanks to https://github.com/FiloSottile/mkcert
+
+`install.bat` will generate `rootCA` and `win-apache-php` in `certs` folder.
+
+Once installed, you can check https://localhost/phpinfo
+
+⚠️ Remember that you should not export or share `rootCA-key.pem`

@@ -43,7 +43,7 @@ function generate_conf($domain, $folder, $php)
 {
     global $php_folders;
     $lines = [];
-    $lines[] = "<VirtualHost *:".get_apache_port().">";
+    $lines[] = "<VirtualHost *:\${WAP_PORT}>";
     $lines[] = "\tServerName $domain";
     $lines[] = "\tErrorLog \"logs/$domain-error.log\"";
     $lines[] = "\tCustomLog \"logs/$domain-access.log\" common";
@@ -61,29 +61,44 @@ function generate_conf($domain, $folder, $php)
             $lines[] = "\tFcgidWrapper \"\${WAP_SERVER}/".$php_folders[$php]."/php-cgi.exe\" .php";
             $lines[] = "\tOptions +ExecCGI";
         }else{
-            print('No existe configuración de php \''.$php.'\': Se usa php 8.2');
+            print('PHP Configuration \''.$php.'\' not found. Using PHP 8.2');
         }
     }
 
     $lines[] = "</VirtualHost>";
+
+    if(file_exists(__DIR__.'/Apache-2.4-win64/conf/configs/httpd-ssl.conf')){
+        $lines[] = "<VirtualHost *:443>";
+        $lines[] = "\tServerName $domain";
+        $lines[] = "\tErrorLog \"logs/$domain-error.log\"";
+        $lines[] = "\tCustomLog \"logs/$domain-access.log\" common";
+        $lines[] = "\tAlias /phpinfo \${WAP_SERVER}/Apache-2.4-win64/htdocs/phpinfo.php";
+        $lines[] = "\tDocumentRoot $folder";
+        $lines[] = "\tSSLEngine on";
+        $lines[] = "\tSSLCertificateFile \"\${WAP_SERVER}/certs/$domain.pem\"";
+        $lines[] = "\tSSLCertificateKeyFile \"\${WAP_SERVER}/certs/$domain-key.pem\"";
+        $lines[] = "\t<Directory \"$folder\">";
+        $lines[] = "\t\tOptions +Indexes +FollowSymLinks";
+        $lines[] = "\t\tAllowOverride All";
+        $lines[] = "\t\tRequire all granted";
+        $lines[] = "\t</Directory>";
+        if($php && $php != 'php82') {
+            if(isset($php_folders[$php])) {
+                $lines[] = "\tAddHandler fcgid-script .php";
+                $lines[] = "\tFcgidWrapper \"\${WAP_SERVER}/".$php_folders[$php]."/php-cgi.exe\" .php";
+                $lines[] = "\tOptions +ExecCGI";
+            }else{
+                print('PHP Configuration \''.$php.'\' not found. Using PHP 8.2');
+            }
+        }
+        $lines[] = "</VirtualHost>";
+    }
     return implode("\n",$lines);
 }
 
 function restart_apache()
 {
     shell_exec(__DIR__.'\Apache-2.4-win64\bin\httpd.exe -k restart');
-}
-
-function get_apache_port()
-{
-    $httpd_conf = file_get_contents(__DIR__.'\Apache-2.4-win64\conf\httpd.conf');
-    if(preg_match_all('/[^#]Listen (\d+)/im', $httpd_conf, $matches)){
-        if(count($matches[1])==1){
-            return $matches[1][0];
-        }
-        throw new RuntimeException('Se ha encontrado más de un puerto de apache');
-    }
-    throw new RuntimeException('No se ha encontrado el puerto de apache');
 }
 
 if(count($argv) < 2){
@@ -100,6 +115,11 @@ if(count($argv) < 2){
     $conf_file = $conf_folder.'/'.$domain.'.conf';
     file_put_contents($conf_file, generate_conf($domain, $folder, $php));
 
+    if(file_exists(__DIR__.'/Apache-2.4-win64/conf/configs/httpd-ssl.conf')) {
+        putenv('CAROOT='.realpath(__DIR__ . '\certs'));
+        shell_exec(__DIR__ . '\certs\mkcert-v1.4.4-windows-amd64.exe -cert-file certs\\'.$domain.'.pem -key-file certs\\'.$domain.'-key.pem '.$domain);
+    }
+
     $found = false;
     foreach($lines as $number => $line){
         if(preg_match("/127.0.0.1\t$domain/", $line)){
@@ -112,7 +132,7 @@ if(count($argv) < 2){
         file_put_contents($file, implode("\r\n", $lines));
     }
     restart_apache();
-    $port = get_apache_port();
+    $port = getenv('WAP_PORT');
     print('Nuevo host accesible en http://'.$domain.($port != 80 ? ':'.$port : ''));
 }else if($argv[1]=='remove' and count($argv)==3){
     $domain = $argv[2];
@@ -168,7 +188,7 @@ if(count($argv) < 2){
 
     ksort($dominios);
 
-    $port = get_apache_port();
+    $port = getenv('WAP_PORT');
     if($port != 80){
         $domain_max_length += strlen($port) + 1; //puerto y los dos puntos
     }
