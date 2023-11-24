@@ -1,8 +1,6 @@
-/*
 /*/
 !/.gitignore
 !/Apache-2.4-win64
-!/certs
 /certs/*.pem
 !/php-5.3-Win32-VC9-x64
 !/php-5.4-Win32-VC9-x64
