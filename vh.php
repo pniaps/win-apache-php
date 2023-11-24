@@ -34,6 +34,9 @@ usage:
     - vh remove <domain>
         Removes a <domain> and it's virtual host
 
+    - vh fix
+        Add existing domains to hosts file
+
     - vh list
         Lists all domains with it's own virtual host
 ");
@@ -57,7 +60,9 @@ function generate_conf($domain, $folder, $php)
 
     if($php && $php != 'php82') {
         if(isset($php_folders[$php])) {
-            $lines[] = "\tAddHandler fcgid-script .php";
+            $lines[] = "\t<FilesMatch \.php$>";
+            $lines[] = "\t\tAddHandler fcgid-script .php";
+            $lines[] = "\t</FilesMatch>";
             $lines[] = "\tFcgidWrapper \"\${WAP_SERVER}/".$php_folders[$php]."/php-cgi.exe\" .php";
             $lines[] = "\tOptions +ExecCGI";
         }else{
@@ -84,7 +89,9 @@ function generate_conf($domain, $folder, $php)
         $lines[] = "\t</Directory>";
         if($php && $php != 'php82') {
             if(isset($php_folders[$php])) {
-                $lines[] = "\tAddHandler fcgid-script .php";
+                $lines[] = "\t<FilesMatch \.php$>";
+                $lines[] = "\t\tAddHandler fcgid-script .php";
+                $lines[] = "\t</FilesMatch>";
                 $lines[] = "\tFcgidWrapper \"\${WAP_SERVER}/".$php_folders[$php]."/php-cgi.exe\" .php";
                 $lines[] = "\tOptions +ExecCGI";
             }else{
@@ -133,12 +140,23 @@ if(count($argv) < 2){
     }
     restart_apache();
     $port = getenv('WAP_PORT');
-    print('Nuevo host accesible en http://'.$domain.($port != 80 ? ':'.$port : ''));
+    print('New host active in http://'.$domain.($port != 80 ? ':'.$port : ''));
 }else if($argv[1]=='remove' and count($argv)==3){
     $domain = $argv[2];
     $conf_file = $conf_folder.'/'.$domain.'.conf';
-    if(file_exists($conf_file)){
-        unlink($conf_file);
+    if(file_exists($conf_file) && unlink($conf_file)){
+        print("File '".$conf_file."' has been deleted.\n");
+    }
+    if(file_exists(__DIR__.'/Apache-2.4-win64/conf/configs/httpd-ssl.conf')) {
+        $certs_folder = __DIR__.'\certs';
+        foreach ([
+                     $certs_folder.DIRECTORY_SEPARATOR.$domain.'.pem',
+                     $certs_folder.DIRECTORY_SEPARATOR.$domain.'-key.pem'
+                 ] as $cert_file){
+            if(file_exists($cert_file) && unlink($cert_file)){
+                print("File '".$cert_file."' has been deleted.\n");
+            }
+        }
     }
 
     foreach($lines as $number => $line){
@@ -148,17 +166,57 @@ if(count($argv) < 2){
     }
     file_put_contents($file, implode("\r\n", $lines));
     restart_apache();
+}else if($argv[1]=='fix'){
+    $dominios = [];
+    //recorro dominios que tienen archivos de configuración
+    foreach (glob($conf_folder."/*.conf") as $filename) {
+        $domain = pathinfo(basename($filename), PATHINFO_FILENAME);
+        if($domain != 'httpd-ssl'){
+            $dominios[] = $domain;
+        }
+    }
+
+    //quito los que ya están en hosts
+    $save_hosts = false;
+    foreach($lines as $number => $line){
+        if(preg_match("/127.0.0.1\t([\w.-]+)$/", $line, $matches)){
+            if (($key = array_search($matches[1], $dominios)) !== false) {
+                unset($dominios[$key]);
+            }elseif(!file_exists($conf_folder.'/'.$matches[1].'.conf')){
+                print('Host removed \''.$matches[1].'\''."\n");
+                unset($lines[$number]);
+                $save_hosts = true;
+            }
+        }
+    }
+
+    //añado a hosts los que faltan
+    if(count($dominios) || $save_hosts){
+        foreach ($dominios as $domain){
+            print('Host added \''.$domain.'\'')."\n";
+            $lines[] = "127.0.0.1\t$domain";
+        }
+        file_put_contents($file, implode("\r\n", $lines));
+        print('Hosts file has been updated!')."\n";
+        restart_apache();
+    }else{
+        print('All domains are in hosts file. Nothing to do!')."\n";
+    }
 }else if($argv[1]=='list'){
 
     $dominios = [];
 
     foreach($lines as $number => $line){
         if(preg_match("/127.0.0.1\t([\w.-]+)$/", $line, $matches)){
-            $dominios[$matches[1]] = [
-                'domain' => $matches[1],
-                'php' => 'php82',
-                'folder' => '',
-            ];
+            if(!file_exists($conf_folder.'/'.$matches[1].'.conf')){
+                print('Domain {'.$matches[1].'} from hosts file is not configured in web server'."\n");
+            }else{
+                $dominios[$matches[1]] = [
+                    'domain' => $matches[1],
+                    'php' => 'php82',
+                    'folder' => '',
+                ];
+            }
         }
     }
 
@@ -167,12 +225,12 @@ if(count($argv) < 2){
     foreach($dominios as $dominio => $valor){
         $domain_max_length = max($domain_max_length, strlen($dominio));
         $conf_file = $conf_folder.'/'.$dominio.'.conf';
-        $lineasvh = file($conf_file);
+        $lineasvh = file($conf_file, FILE_IGNORE_NEW_LINES);
         $host_validated = false;
         foreach($lineasvh as $number => $line){
             if(preg_match("/ServerName (.*)/", $line, $matches)){
                 if($matches[1] != $dominio){
-                    throw new RuntimeException('El dominio {'.$dominio.'} tiene configurado un host diferente {'.$matches[1].'}');
+                    print('Domain {'.$dominio.'} has a different ServerName {'.$matches[1].'} in file {'.$conf_file.'}'."\n");
                 }
                 $host_validated = true;
             }
