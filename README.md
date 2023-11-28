@@ -14,7 +14,8 @@ This is my local apache server with different php versions.
  - PHP Version 7.4.33
  - PHP Version 8.0.28
  - PHP Version 8.1.19
- - PHP Version 8.2.6 (default)
+ - PHP Version 8.2.6
+ - PHP Version 8.3.0 (default)
 
 ### Installation
 
@@ -39,22 +40,23 @@ Each version of php is used in a virtualhost:
  - virtualhost `php80` uses PHP Version 8.0.28
  - virtualhost `php81` uses PHP Version 8.1.19
  - virtualhost `php82` uses PHP Version 8.2.6
- - All other hosts uses PHP Version 8.2.6
+ - virtualhost `php83` uses PHP Version 8.3.0
+ - All other hosts uses PHP Version 8.3.0
  
 You can add those hosts in the following file `c:\Windows\System32\drivers\etc\hosts`
 ```
 127.0.0.1 php53 php54 php55 php56
 127.0.0.1 php70 php71 php72 php73 php74
-127.0.0.1 php80 php81 php82
+127.0.0.1 php80 php81 php82 php83
 ```
 Or executing the folling command as administrator
 ```
 (echo. & echo 127.0.0.1 php53 php54 php55 php56) >> C:\Windows\System32\drivers\etc\hosts
 (echo. & echo 127.0.0.1 php70 php71 php72 php73 php74) >> C:\Windows\System32\drivers\etc\hosts
-(echo. & echo 127.0.0.1 php80 php81 php82) >> C:\Windows\System32\drivers\etc\hosts
+(echo. & echo 127.0.0.1 php80 php81 php82 php83) >> C:\Windows\System32\drivers\etc\hosts
 ```
 
-Add folder `%WAP_SERVER%\php-8.2-Win32-vs16-x64` to path if you want to execute `php` or `composer` from the command line.
+Add folder `%WAP_SERVER%\php-8.3-Win32-vs16-x64` to path if you want to execute `php` or `composer` from the command line.
 
 Finally, install apache as service (run as administrator)
 ```
@@ -76,6 +78,7 @@ Once installed and service started, you can test the `phpinfo()` for each versio
 - http://php80/phpinfo
 - http://php81/phpinfo
 - http://php82/phpinfo
+- http://php83/phpinfo
 - http://localhost/phpinfo
 
 ### Uptate

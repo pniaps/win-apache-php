@@ -15,6 +15,7 @@ $php_folders = [
     'php80' => 'php-8.0-Win32-vs16-x64',
     'php81' => 'php-8.1-Win32-vs16-x64',
     'php82' => 'php-8.2-Win32-vs16-x64',
+    'php83' => 'php-8.3-Win32-vs16-x64',
 ];
 
 function show_usage()
@@ -25,11 +26,11 @@ This utility creates virtualhosts in apache and add the domain in 'hosts' file.
 usage:
     - vh show <domain> <folder> <php>
         Shows the configuration that will be generated for the virtualhost. The
-        'php' parameter is optional but can be from 'php53' to 'php82'.
+        'php' parameter is optional but can be from 'php53' to 'php83'.
 
     - vh add <domain> <folder> <php>
         Add a <domain> with it's virtual host in <folder>. The
-        'php' parameter is optional but can be from 'php53' to 'php82'.
+        'php' parameter is optional but can be from 'php53' to 'php83'.
 
     - vh remove <domain>
         Removes a <domain> and it's virtual host
@@ -58,7 +59,7 @@ function generate_conf($domain, $folder, $php)
     $lines[] = "\t\tRequire all granted";
     $lines[] = "\t</Directory>";
 
-    if($php && $php != 'php82') {
+    if($php && $php != 'php83') {
         if(isset($php_folders[$php])) {
             $lines[] = "\t<FilesMatch \.php$>";
             $lines[] = "\t\tAddHandler fcgid-script .php";
@@ -87,7 +88,7 @@ function generate_conf($domain, $folder, $php)
         $lines[] = "\t\tAllowOverride All";
         $lines[] = "\t\tRequire all granted";
         $lines[] = "\t</Directory>";
-        if($php && $php != 'php82') {
+        if($php && $php != 'php83') {
             if(isset($php_folders[$php])) {
                 $lines[] = "\t<FilesMatch \.php$>";
                 $lines[] = "\t\tAddHandler fcgid-script .php";
@@ -113,12 +114,12 @@ if(count($argv) < 2){
 }else if($argv[1]=='show' and (count($argv)==4 || count($argv)==5)){
     $domain = $argv[2];
     $folder = $argv[3];
-    $php = count($argv)==5 ? $argv[4] : 'php82';
+    $php = count($argv)==5 ? $argv[4] : 'php83';
     print(generate_conf($domain, $folder, $php));
 }else if($argv[1]=='add'  and (count($argv)==4 || count($argv)==5)){
     $domain = $argv[2];
     $folder = $argv[3];
-    $php = count($argv)==5 ? $argv[4] : 'php82';
+    $php = count($argv)==5 ? $argv[4] : 'php83';
     $conf_file = $conf_folder.'/'.$domain.'.conf';
     file_put_contents($conf_file, generate_conf($domain, $folder, $php));
 
@@ -213,7 +214,7 @@ if(count($argv) < 2){
             }else{
                 $dominios[$matches[1]] = [
                     'domain' => $matches[1],
-                    'php' => 'php82',
+                    'php' => 'php83',
                     'folder' => '',
                 ];
             }
