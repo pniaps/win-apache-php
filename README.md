@@ -2,7 +2,7 @@
 
 This is my local apache server with different php versions.
 
- - Apache/2.4.25 (Win64)
+ - Apache/2.4.58 (Win64)
  - PHP Version 5.3.29
  - PHP Version 5.4.45
  - PHP Version 5.5.38
