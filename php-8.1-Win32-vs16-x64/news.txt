@@ -1,5 +1,64 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+21 Dec 2023, PHP 8.1.27
+
+- Core:
+  . Fixed oss-fuzz #54325 (Use-after-free of name in var-var with malicious
+    error handler). (ilutov)
+  . Fixed oss-fuzz #64209 (In-place modification of filename in
+    php_message_handler_for_zend). (ilutov)
+  . Fixed bug GH-12758 / GH-12768 (Invalid opline in OOM handlers within
+    ZEND_FUNC_GET_ARGS and ZEND_BIND_STATIC). (Florian Engelhardt)
+
+- DOM:
+  . Fixed bug GH-12616 (DOM: Removing XMLNS namespace node results in invalid
+    default: prefix). (nielsdos)
+
+- FPM:
+  . Fixed bug GH-12705 (Segmentation fault in fpm_status_export_to_zval).
+    (Patrick Prasse)
+   
+- Intl:
+  . Fixed bug GH-12635 (Test bug69398.phpt fails with ICU 74.1). (nielsdos)
+
+- LibXML:
+  . Fixed bug GH-12702 (libxml2 2.12.0 issue building from src). (nono303)
+
+- MySQLnd:
+  . Avoid using uninitialised struct. (mikhainin)
+
+- OpenSSL:
+  . Fixed bug #50713 (openssl_pkcs7_verify() may ignore untrusted CAs).
+    (Jakub Zelenka)
+
+- PCRE:
+  . Fixed bug GH-12628 (The gh11374 test fails on Alpinelinux). (nielsdos)
+
+- PGSQL:
+  . Fixed bug GH-12763 wrong argument type for pg_untrace. (degtyarov)
+
+- PHPDBG:
+  . Fixed bug GH-12675 (MEMORY_LEAK in phpdbg_prompt.c). (nielsdos)
+
+- SQLite3:
+  . Fixed bug GH-12633 (sqlite3_defensive.phpt fails with sqlite 3.44.0).
+    (SakiTakamachi)
+
+- Standard:
+  . Fix memory leak in syslog device handling. (danog)
+  . Fixed bug GH-12621 (browscap segmentation fault when configured in the
+    vhost). (nielsdos)
+  . Fixed bug GH-12655 (proc_open() does not take into account references
+    in the descriptor array). (nielsdos)
+
+- Streams:
+  . Fixed bug #79945 (Stream wrappers in imagecreatefrompng causes segfault).
+    (Jakub Zelenka)
+
+- Zip:
+  . Fixed bug GH-12661 (Inconsistency in ZipArchive::addGlob remove_path Option
+    Behavior). (Remi)
+
 23 Nov 2023, PHP 8.1.26
 
 - Core:
