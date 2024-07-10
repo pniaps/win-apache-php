@@ -1,7 +1,7 @@
 <?php
 $file = "C:\\Windows\\System32\\drivers\\etc\\hosts";
 $conf_folder = __DIR__.'\Apache-2.4-win64\conf\configs';
-$lines = file($file, FILE_IGNORE_NEW_LINES);
+$hosts_lines = file($file, FILE_IGNORE_NEW_LINES);
 $php_folders = [
     'php53' => 'php-5.3-Win32-VC9-x64',
     'php54' => 'php-5.4-Win32-VC9-x64',
@@ -52,12 +52,14 @@ function generate_conf($domain, $folder, $php)
     $lines[] = "\tErrorLog \"logs/$domain-error.log\"";
     $lines[] = "\tCustomLog \"logs/$domain-access.log\" common";
     $lines[] = "\tAlias /phpinfo \${WAP_SERVER}/Apache-2.4-win64/htdocs/phpinfo.php";
-    $lines[] = "\tDocumentRoot $folder";
-    $lines[] = "\t<Directory \"$folder\">";
-    $lines[] = "\t\tOptions +Indexes +FollowSymLinks";
-    $lines[] = "\t\tAllowOverride All";
-    $lines[] = "\t\tRequire all granted";
-    $lines[] = "\t</Directory>";
+    if($folder) {
+        $lines[] = "\tDocumentRoot $folder";
+        $lines[] = "\t<Directory \"$folder\">";
+        $lines[] = "\t\tOptions +Indexes +FollowSymLinks";
+        $lines[] = "\t\tAllowOverride All";
+        $lines[] = "\t\tRequire all granted";
+        $lines[] = "\t</Directory>";
+    }
 
     if($php && $php != 'php83') {
         if(isset($php_folders[$php])) {
@@ -65,9 +67,10 @@ function generate_conf($domain, $folder, $php)
             $lines[] = "\t\tAddHandler fcgid-script .php";
             $lines[] = "\t</FilesMatch>";
             $lines[] = "\tFcgidWrapper \"\${WAP_SERVER}/".$php_folders[$php]."/php-cgi.exe\" .php";
+            $lines[] = "\tFcgidInitialEnv PHPRC \"\${WAP_SERVER}/".$php_folders[$php]."\"";
             $lines[] = "\tOptions +ExecCGI";
         }else{
-            print('PHP Configuration \''.$php.'\' not found. Using PHP 8.2');
+            print('PHP Configuration \''.$php.'\' not found. Using PHP 8.3');
         }
     }
 
@@ -79,15 +82,17 @@ function generate_conf($domain, $folder, $php)
         $lines[] = "\tErrorLog \"logs/$domain-error.log\"";
         $lines[] = "\tCustomLog \"logs/$domain-access.log\" common";
         $lines[] = "\tAlias /phpinfo \${WAP_SERVER}/Apache-2.4-win64/htdocs/phpinfo.php";
-        $lines[] = "\tDocumentRoot $folder";
         $lines[] = "\tSSLEngine on";
         $lines[] = "\tSSLCertificateFile \"\${WAP_SERVER}/certs/$domain.pem\"";
         $lines[] = "\tSSLCertificateKeyFile \"\${WAP_SERVER}/certs/$domain-key.pem\"";
-        $lines[] = "\t<Directory \"$folder\">";
-        $lines[] = "\t\tOptions +Indexes +FollowSymLinks";
-        $lines[] = "\t\tAllowOverride All";
-        $lines[] = "\t\tRequire all granted";
-        $lines[] = "\t</Directory>";
+        if($folder) {
+            $lines[] = "\tDocumentRoot $folder";
+            $lines[] = "\t<Directory \"$folder\">";
+            $lines[] = "\t\tOptions +Indexes +FollowSymLinks";
+            $lines[] = "\t\tAllowOverride All";
+            $lines[] = "\t\tRequire all granted";
+            $lines[] = "\t</Directory>";
+        }
         if($php && $php != 'php83') {
             if(isset($php_folders[$php])) {
                 $lines[] = "\t<FilesMatch \.php$>";
@@ -109,105 +114,12 @@ function restart_apache()
     shell_exec(__DIR__.'\Apache-2.4-win64\bin\httpd.exe -k restart');
 }
 
-if(count($argv) < 2){
-    show_usage();
-}else if($argv[1]=='show' and (count($argv)==4 || count($argv)==5)){
-    $domain = $argv[2];
-    $folder = $argv[3];
-    $php = count($argv)==5 ? $argv[4] : 'php83';
-    print(generate_conf($domain, $folder, $php));
-}else if($argv[1]=='add'  and (count($argv)==4 || count($argv)==5)){
-    $domain = $argv[2];
-    $folder = $argv[3];
-    $php = count($argv)==5 ? $argv[4] : 'php83';
-    $conf_file = $conf_folder.'/'.$domain.'.conf';
-    file_put_contents($conf_file, generate_conf($domain, $folder, $php));
-
-    if(file_exists(__DIR__.'/Apache-2.4-win64/conf/configs/httpd-ssl.conf')) {
-        putenv('CAROOT='.realpath(__DIR__ . '\certs'));
-        shell_exec(__DIR__ . '\certs\mkcert-v1.4.4-windows-amd64.exe -cert-file certs\\'.$domain.'.pem -key-file certs\\'.$domain.'-key.pem '.$domain);
-    }
-
-    $found = false;
-    foreach($lines as $number => $line){
-        if(preg_match("/127.0.0.1\t$domain/", $line)){
-            $found = true;
-            break;
-        }
-    }
-    if(!$found){
-        $lines[] = "127.0.0.1\t$domain";
-        file_put_contents($file, implode("\r\n", $lines));
-    }
-    restart_apache();
-    $port = getenv('WAP_PORT');
-    print('New host active in http://'.$domain.($port != 80 ? ':'.$port : ''));
-}else if($argv[1]=='remove' and count($argv)==3){
-    $domain = $argv[2];
-    $conf_file = $conf_folder.'/'.$domain.'.conf';
-    if(file_exists($conf_file) && unlink($conf_file)){
-        print("File '".$conf_file."' has been deleted.\n");
-    }
-    if(file_exists(__DIR__.'/Apache-2.4-win64/conf/configs/httpd-ssl.conf')) {
-        $certs_folder = __DIR__.'\certs';
-        foreach ([
-                     $certs_folder.DIRECTORY_SEPARATOR.$domain.'.pem',
-                     $certs_folder.DIRECTORY_SEPARATOR.$domain.'-key.pem'
-                 ] as $cert_file){
-            if(file_exists($cert_file) && unlink($cert_file)){
-                print("File '".$cert_file."' has been deleted.\n");
-            }
-        }
-    }
-
-    foreach($lines as $number => $line){
-        if(preg_match("/127.0.0.1\t$domain/", $line)){
-            unset($lines[$number]);
-        }
-    }
-    file_put_contents($file, implode("\r\n", $lines));
-    restart_apache();
-}else if($argv[1]=='fix'){
-    $dominios = [];
-    //recorro dominios que tienen archivos de configuración
-    foreach (glob($conf_folder."/*.conf") as $filename) {
-        $domain = pathinfo(basename($filename), PATHINFO_FILENAME);
-        if($domain != 'httpd-ssl'){
-            $dominios[] = $domain;
-        }
-    }
-
-    //quito los que ya están en hosts
-    $save_hosts = false;
-    foreach($lines as $number => $line){
-        if(preg_match("/127.0.0.1\t([\w.-]+)$/", $line, $matches)){
-            if (($key = array_search($matches[1], $dominios)) !== false) {
-                unset($dominios[$key]);
-            }elseif(!file_exists($conf_folder.'/'.$matches[1].'.conf')){
-                print('Host removed \''.$matches[1].'\''."\n");
-                unset($lines[$number]);
-                $save_hosts = true;
-            }
-        }
-    }
-
-    //añado a hosts los que faltan
-    if(count($dominios) || $save_hosts){
-        foreach ($dominios as $domain){
-            print('Host added \''.$domain.'\'')."\n";
-            $lines[] = "127.0.0.1\t$domain";
-        }
-        file_put_contents($file, implode("\r\n", $lines));
-        print('Hosts file has been updated!')."\n";
-        restart_apache();
-    }else{
-        print('All domains are in hosts file. Nothing to do!')."\n";
-    }
-}else if($argv[1]=='list'){
-
+function read_domains()
+{
+    global $php_folders, $conf_folder, $hosts_lines;
     $dominios = [];
 
-    foreach($lines as $number => $line){
+    foreach($hosts_lines as $number => $line){
         if(preg_match("/127.0.0.1\t([\w.-]+)$/", $line, $matches)){
             if(!file_exists($conf_folder.'/'.$matches[1].'.conf')){
                 print('Domain {'.$matches[1].'} from hosts file is not configured in web server'."\n");
@@ -246,6 +158,117 @@ if(count($argv) < 2){
     }
 
     ksort($dominios);
+
+    return [$dominios, $domain_max_length, $folder_max_length];
+}
+
+if(count($argv) < 2){
+    show_usage();
+}else if($argv[1]=='show' and (count($argv)==4 || count($argv)==5)){
+    $domain = $argv[2];
+    $folder = $argv[3];
+    $php = count($argv)==5 ? $argv[4] : 'php83';
+    print(generate_conf($domain, $folder, $php));
+}else if($argv[1]=='add'  and (count($argv)==4 || count($argv)==5)){
+    $domain = $argv[2];
+    $folder = $argv[3];
+    $php = count($argv)==5 ? $argv[4] : 'php83';
+    $conf_file = $conf_folder.'/'.$domain.'.conf';
+    file_put_contents($conf_file, generate_conf($domain, $folder, $php));
+
+    if(file_exists(__DIR__.'/Apache-2.4-win64/conf/configs/httpd-ssl.conf')) {
+        putenv('CAROOT='.realpath(__DIR__ . '\certs'));
+        shell_exec(__DIR__ . '\certs\mkcert-v1.4.4-windows-amd64.exe -cert-file certs\\'.$domain.'.pem -key-file certs\\'.$domain.'-key.pem '.$domain);
+    }
+
+    $found = false;
+    foreach($hosts_lines as $number => $line){
+        if(preg_match("/127.0.0.1\t$domain/", $line)){
+            $found = true;
+            break;
+        }
+    }
+    if(!$found){
+        $hosts_lines[] = "127.0.0.1\t$domain";
+        file_put_contents($file, implode("\r\n", $hosts_lines));
+    }
+    restart_apache();
+    $port = getenv('WAP_PORT');
+    print('New host active in http://'.$domain.($port != 80 ? ':'.$port : ''));
+}else if($argv[1]=='remove' and count($argv)==3){
+    $domain = $argv[2];
+    $conf_file = $conf_folder.'/'.$domain.'.conf';
+    if(file_exists($conf_file) && unlink($conf_file)){
+        print("File '".$conf_file."' has been deleted.\n");
+    }
+    if(file_exists(__DIR__.'/Apache-2.4-win64/conf/configs/httpd-ssl.conf')) {
+        $certs_folder = __DIR__.'\certs';
+        foreach ([
+                     $certs_folder.DIRECTORY_SEPARATOR.$domain.'.pem',
+                     $certs_folder.DIRECTORY_SEPARATOR.$domain.'-key.pem'
+                 ] as $cert_file){
+            if(file_exists($cert_file) && unlink($cert_file)){
+                print("File '".$cert_file."' has been deleted.\n");
+            }
+        }
+    }
+
+    foreach($hosts_lines as $number => $line){
+        if(preg_match("/127.0.0.1\t$domain/", $line)){
+            unset($hosts_lines[$number]);
+        }
+    }
+    file_put_contents($file, implode("\r\n", $hosts_lines));
+    restart_apache();
+}else if($argv[1]=='fix'){
+    $dominios = [];
+    //recorro dominios que tienen archivos de configuración
+    foreach (glob($conf_folder."/*.conf") as $filename) {
+        $domain = pathinfo(basename($filename), PATHINFO_FILENAME);
+        if($domain != 'httpd-ssl'){
+            $dominios[] = $domain;
+        }
+    }
+
+    //quito los que ya están en hosts
+    $save_hosts = false;
+    foreach($hosts_lines as $number => $line){
+        if(preg_match("/127.0.0.1\t([\w.-]+)$/", $line, $matches)){
+            if (($key = array_search($matches[1], $dominios)) !== false) {
+                unset($dominios[$key]);
+            }elseif(!file_exists($conf_folder.'/'.$matches[1].'.conf')){
+                print('Host removed \''.$matches[1].'\''."\n");
+                unset($hosts_lines[$number]);
+                $save_hosts = true;
+            }
+        }
+    }
+
+    //añado a hosts los que faltan
+    if(count($dominios) || $save_hosts){
+        foreach ($dominios as $domain){
+            print('Host added \''.$domain.'\'')."\n";
+            $hosts_lines[] = "127.0.0.1\t$domain";
+        }
+        file_put_contents($file, implode("\r\n", $hosts_lines));
+        print('Hosts file has been updated!')."\n";
+        restart_apache();
+    }else{
+        print('All domains are in hosts file. Nothing to do!')."\n";
+    }
+}else if($argv[1]=='regenerate'){
+
+    list($dominios, $domain_max_length, $folder_max_length) = read_domains();
+    foreach ($dominios as $domain){
+        $conf_file = $conf_folder.'/'.$domain['domain'].'.conf';
+        file_put_contents($conf_file, generate_conf($domain['domain'], $domain['folder'], $domain['php']));
+    }
+
+    restart_apache();
+
+}else if($argv[1]=='list'){
+
+    list($dominios, $domain_max_length, $folder_max_length) = read_domains();
 
     $port = getenv('WAP_PORT');
     if($port != 80){
