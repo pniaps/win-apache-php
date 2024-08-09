@@ -22,32 +22,42 @@ IF %ERRORLEVEL% EQU 0 (
    EXIT /B 1
 )
 
-setx /m PATH "%PATH:php-7.3-Win32-VC15-x64=php-8.3-Win32-vs16-x64%"
-set PATH "%PATH:php-7.3-Win32-VC15-x64=php-8.3-Win32-vs16-x64%"
-
-setx /m PATH "%PATH:php-7.4-Win32-VC15-x64=php-8.3-Win32-vs16-x64%"
-set PATH "%PATH:php-7.4-Win32-VC15-x64=php-8.3-Win32-vs16-x64%"
-
-setx /m PATH "%PATH:php-8.0-Win32-vs16-x64=php-8.3-Win32-vs16-x64%"
-set PATH "%PATH:php-8.0-Win32-vs16-x64=php-8.3-Win32-vs16-x64%"
-
-setx /m PATH "%PATH:php-8.1-Win32-vs16-x64=php-8.3-Win32-vs16-x64%"
-set PATH "%PATH:php-8.1-Win32-vs16-x64=php-8.3-Win32-vs16-x64%"
-
-setx /m PATH "%PATH:php-8.2-Win32-vs16-x64=php-8.3-Win32-vs16-x64%"
-set PATH "%PATH:php-8.2-Win32-vs16-x64=php-8.3-Win32-vs16-x64%"
-
-
 SET currentpath=%~dp0
 SET currentpath=%currentpath:~0,-1%
 cd /d %currentpath%
 
+setx /m PATH "%PATH:php-7.3-Win32-VC15-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
+set PATH=%PATH:php-7.3-Win32-VC15-x64=php-8.3-Win32-vs16-x64%
+
+setx /m PATH "%PATH:php-7.4-Win32-VC15-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
+set PATH=%PATH:php-7.4-Win32-VC15-x64=php-8.3-Win32-vs16-x64%
+
+setx /m PATH "%PATH:php-8.0-Win32-vs16-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
+set PATH=%PATH:php-8.0-Win32-vs16-x64=php-8.3-Win32-vs16-x64%
+
+setx /m PATH "%PATH:php-8.1-Win32-vs16-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
+set PATH=%PATH:php-8.1-Win32-vs16-x64=php-8.3-Win32-vs16-x64%
+
+setx /m PATH "%PATH:php-8.2-Win32-vs16-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
+set PATH=%PATH:php-8.2-Win32-vs16-x64=php-8.3-Win32-vs16-x64%
+
+
 FOR %%G IN (php53 php54 php55 php56 php70 php71 php72 php73 php74 php80 php81 php82 php83) DO (
-	findstr "%%G" C:\Windows\System32\drivers\etc\hosts || (
+	findstr "%%G" C:\Windows\System32\drivers\etc\hosts > NUL || (
 		(echo. & echo 127.0.0.1 %%G) >> C:\Windows\System32\drivers\etc\hosts
 	)
 )
-@net stop Apache2.4
+
+set ERROLEVEL=0
+sc query Apache2.4 > NUL
+if %ERRORLEVEL% EQU 0 (
+	net stop Apache2.4 > NUL 2> NUL
+	%WAP_SERVER%\Apache-2.4-win64\bin\httpd.exe -k uninstall
+	%WAP_SERVER%\Apache-2.4-win64\bin\httpd.exe -k install -n win-apache-php
+)
+
+
+@net stop win-apache-php
 @echo.
 @echo.
 
@@ -55,7 +65,7 @@ git pull
 @echo.
 @echo.
 
-@net start Apache2.4
+@net start win-apache-php
 @echo.
 @echo.
 
