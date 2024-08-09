@@ -111,7 +111,7 @@ function generate_conf($domain, $folder, $php)
 
 function restart_apache()
 {
-    shell_exec(__DIR__.'\Apache-2.4-win64\bin\httpd.exe -k restart');
+    shell_exec(__DIR__.'\Apache-2.4-win64\bin\httpd.exe -k restart -n win-apache-php');
 }
 
 function read_domains()
