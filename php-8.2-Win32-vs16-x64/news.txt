@@ -1,5 +1,213 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+26 Sep 2024, PHP 8.2.24
+
+- CGI:
+  . Fixed bug GHSA-p99j-rfp4-xqvq (Bypass of CVE-2024-4577, Parameter Injection
+    Vulnerability). (CVE-2024-8926) (nielsdos)
+  . Fixed bug GHSA-94p6-54jq-9mwp (cgi.force_redirect configuration is
+    bypassable due to the environment variable collision). (CVE-2024-8927)
+    (nielsdos)
+
+- Core:
+  . Fixed bug GH-15408 (MSan false-positve on zend_max_execution_timer).
+    (zeriyoshi)
+  . Fixed bug GH-15515 (Configure error grep illegal option q). (Peter Kokot)
+  . Fixed bug GH-15514 (Configure error: genif.sh: syntax error). (Peter Kokot)
+  . Fixed bug GH-15565 (--disable-ipv6 during compilation produces error
+    EAI_SYSTEM not found). (nielsdos)
+  . Fixed bug GH-15587 (CRC32 API build error on arm 32-bit).
+    (Bernd Kuhls, Thomas Petazzoni)
+  . Fixed bug GH-15330 (Do not scan generator frames more than once). (Arnaud)
+  . Fixed uninitialized lineno in constant AST of internal enums. (ilutov)
+
+- Curl:
+  . FIxed bug GH-15547 (curl_multi_select overflow on timeout argument).
+    (David Carlier)
+
+- DOM:
+  . Fixed bug GH-15551 (Segmentation fault (access null pointer) in
+    ext/dom/xml_common.h). (nielsdos)
+
+- Fileinfo:
+  . Fixed bug GH-15752 (Incorrect error message for finfo_file
+    with an empty filename argument). (DanielEScherzer)
+
+- FPM:
+  . Fixed bug GHSA-865w-9rf3-2wh5 (Logs from childrens may be altered).
+    (CVE-2024-9026) (Jakub Zelenka)
+
+- MySQLnd:
+  . Fixed bug GH-15432 (Heap corruption when querying a vector). (cmb,
+    Kamil Tekiela)
+
+- Opcache:
+  . Fixed bug GH-15661 (Access null pointer in
+    Zend/Optimizer/zend_inference.c). (nielsdos)
+  . Fixed bug GH-15658 (Segmentation fault in Zend/zend_vm_execute.h).
+    (nielsdos)
+
+- SAPI:
+  . Fixed bug GHSA-9pqp-7h25-4f32 (Erroneous parsing of multipart form data).
+    (CVE-2024-8925) (Arnaud)
+
+- SOAP:
+  . Fixed bug #73182 (PHP SOAPClient does not support stream context HTTP
+    headers in array form). (nielsdos)
+
+- Standard:
+  . Fixed bug GH-15552 (Signed integer overflow in ext/standard/scanf.c). (cmb)
+
+- Streams:
+  . Fixed bug GH-15628 (php_stream_memory_get_buffer() not zero-terminated).
+    (cmb)
+
+29 Aug 2024, PHP 8.2.23
+
+- Core:
+  . Fixed bug GH-15020 (Memory leak in Zend/Optimizer/escape_analysis.c).
+    (nielsdos)
+  . Fixed bug GH-15023 (Memory leak in Zend/zend_ini.c). (nielsdos)
+  . Fixed bug GH-13330 (Append -Wno-implicit-fallthrough flag conditionally).
+    (Peter Kokot)
+  . Fix uninitialized memory in network.c. (nielsdos)
+  . Fixed bug GH-15108 (Segfault when destroying generator during shutdown).
+    (Arnaud)
+  . Fixed bug GH-15275 (Crash during GC of suspended generator delegate).
+    (Arnaud)
+
+- Curl:
+  . Fixed case when curl_error returns an empty string.
+    (David Carlier)
+
+- DOM:
+  . Fix UAF when removing doctype and using foreach iteration. (nielsdos)
+
+- FFI:
+  . Fixed bug GH-14286 (ffi enum type (when enum has no name) make memory
+    leak). (nielsdos, dstogov)
+
+- Hash:
+  . Fix crash when converting array data for array in shm in xxh3. (nielsdos)
+
+- Intl:
+  . Fixed bug GH-15087 (IntlChar::foldCase()'s $option is not optional). (cmb)
+
+- Opcache:
+  . Fixed bug GH-13817 (Segmentation fault for enabled observers after pass 4).
+    (Bob)
+  . Fixed bug GH-13775 (Memory leak possibly related to opcache SHM placement).
+    (Arnaud, nielsdos)
+
+- Output:
+  . Fixed bug GH-15179 (Segmentation fault (null pointer dereference) in
+    ext/standard/url_scanner_ex.re). (nielsdos)
+
+- PDO_Firebird:
+  . Fix bogus fallthrough path in firebird_handle_get_attribute(). (nielsdos)
+
+- PHPDBG:
+  . Fixed bug GH-13199 (EOF emits redundant prompt in phpdbg local console mode
+    with libedit/readline). (Peter Kokot)
+  . Fixed bug GH-15268 (heap buffer overflow in phpdbg
+    (zend_hash_num_elements() Zend/zend_hash.h)). (nielsdos)
+  . Fixed bug GH-15210 use-after-free on watchpoint allocations. (nielsdos)
+
+- Random:
+  . Fixed part of bug GH-15381, checking getrandom availability on solaris.
+    (David Carlier)
+
+- Soap:
+  . Fixed bug #55639 (Digest autentication dont work). (nielsdos)
+  . Fix SoapFault property destruction. (nielsdos)
+  . Fixed bug GH-15252 (SOAP XML broken since PHP 8.3.9 when using classmap
+    constructor option). (nielsdos)
+
+- Standard:
+  . Fix passing non-finite timeout values in stream functions. (nielsdos)
+  . Fixed GH-14780 p(f)sockopen timeout overflow. (David Carlier)
+  . Fixed GH-15653 overflow on fgetcsv length parameter. (David Carlier)
+
+- Streams:
+  . Fixed bug GH-15028 (Memory leak in ext/phar/stream.c). (nielsdos)
+  . Fixed bug GH-15034 (Integer overflow on stream_notification_callback
+    byte_max parameter with files bigger than 2GB). (nielsdos)
+
+- Tidy:
+  . Fix memory leaks in ext/tidy basedir restriction code. (nielsdos)
+
+01 Aug 2024, PHP 8.2.22
+
+- Core:
+  . Fixed bug GH-13922 (Fixed support for systems with
+    sysconf(_SC_GETPW_R_SIZE_MAX) == -1). (Arnaud)
+  . Fixed bug GH-14626 (Fix is_zend_ptr() for huge blocks). (Arnaud)
+  . Fixed bug GH-14590 (Memory leak in FPM test gh13563-conf-bool-env.phpt.
+    (nielsdos)
+  . Fixed OSS-Fuzz #69765. (nielsdos)
+  . Fixed bug GH-14741 (Segmentation fault in Zend/zend_types.h). (nielsdos)
+  . Fixed bug GH-14969 (Use-after-free in property coercion with __toString()).
+    (ilutov)
+  . Fixed bug GH-14961 (Comment between -> and keyword results in parse error).
+    (ilutov)
+
+- Dom:
+  . Fixed bug GH-14702 (DOMDocument::xinclude() crash). (nielsdos)
+
+- Gd:
+  . ext/gd/tests/gh10614.phpt: skip if no PNG support. (orlitzky)
+  . restored warning instead of fata error. (dryabov)
+
+- LibXML:
+  . Fixed bug GH-14563 (Build failure with libxml2 v2.13.0). (nielsdos)
+
+- Opcache:
+  . Fixed bug GH-14550 (No warning message when Zend DTrace is enabled that
+    opcache.jit is implictly disabled). (nielsdos)
+
+- Output:
+  . Fixed bug GH-14808 (Unexpected null pointer in Zend/zend_string.h with
+    empty output buffer). (nielsdos)
+
+- PDO:
+  . Fixed bug GH-14712 (Crash with PDORow access to null property).
+    (David Carlier)
+
+- Phar:
+  . Fixed bug GH-14603 (null string from zip entry).
+    (David Carlier)
+
+- PHPDBG:
+  . Fixed bug GH-14596 (crashes with ASAN and ZEND_RC_DEBUG=1).
+    (David Carlier)
+  . Fixed bug GH-14553 (echo output trimmed at NULL byte). (nielsdos)
+
+- Shmop:
+   . Fixed bug GH-14537 (shmop Windows 11 crashes the process). (nielsdos)
+
+- SimpleXML:
+   . Fixed bug GH-14638 (null dereference after XML parsing failure).
+     (David Carlier)
+
+- SPL:
+  . Fixed bug GH-14639 (Member access within null pointer in
+    ext/spl/spl_observer.c). (nielsdos)
+
+- Standard:
+  . Fix 32-bit wordwrap test failures. (orlitzky)
+  . Fixed bug GH-14774 (time_sleep_until overflow). (David Carlier)
+
+- Tidy:
+  . Fix memory leak in tidy_repair_file(). (nielsdos)
+
+- Treewide:
+  . Fix compatibility with libxml2 2.13.2. (nielsdos)
+
+- XML:
+  . Move away from to-be-deprecated libxml fields. (nielsdos)
+  . Fixed bug GH-14834 (Error installing PHP when --with-pear is used).
+    (nielsdos)
+
 04 Jul 2024, PHP 8.2.21
 
 - Core:
@@ -13,7 +221,7 @@ PHP                                                                        NEWS
   . Fixed bug GH-14549 (Incompatible function pointer type for fclose).
     (Ryan Carsten Schmidt)
 
-- BCMatch:
+- BCMath:
   . Fixed bug (bcpowmod() with mod = -1 returns 1 when it must be 0). (Girgias)
 
 - Curl:
