@@ -15,6 +15,7 @@
 !/php-8.1-Win32-vs16-x64
 !/php-8.2-Win32-vs16-x64
 !/php-8.3-Win32-vs16-x64
+!/php-8.4-Win32-vs17-x64
 !/sessions
 !/upload_tmp
 !cacert.pem

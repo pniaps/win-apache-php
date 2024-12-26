@@ -2,6 +2,7 @@
 $file = "C:\\Windows\\System32\\drivers\\etc\\hosts";
 $conf_folder = dirname(__DIR__).'\conf\configs';
 $lines = file($file, FILE_IGNORE_NEW_LINES);
+$php_default = 'php84';
 $php_folders = [
     'php53' => 'php-5.3-Win32-VC9-x64',
     'php54' => 'php-5.4-Win32-VC9-x64',
@@ -15,7 +16,8 @@ $php_folders = [
     'php80' => 'php-8.0-Win32-vs16-x64',
     'php81' => 'php-8.1-Win32-vs16-x64',
     'php82' => 'php-8.2-Win32-vs16-x64',
-    'php83' => 'php-8.2-Win32-vs16-x64',
+    'php83' => 'php-8.3-Win32-vs16-x64',
+    'php84' => 'php-8.4-Win32-vs17-x64',
 ];
 
 $dominios = [];
@@ -27,7 +29,7 @@ foreach($lines as $number => $line){
         }else{
             $dominios[$matches[1]] = [
                 'domain' => $matches[1],
-                'php' => 'php83',
+                'php' => $php_default,
                 'folder' => '',
             ];
         }
@@ -92,6 +94,7 @@ table{
   width: 100%;
   border-collapse: collapse;
 }
+table.border td{border: 1px solid #ccc}
 table th{text-align: left}
 table td{padding: 5px;}
 table thead tr{ background-color: #0000FF; color: #FFFFFF; }
@@ -102,16 +105,22 @@ echo '</style>';
 echo '</head>';
 echo '<body style="padding: 20px">';
 echo '<h1 style="text-align: center; padding: 15px">win-apache-php defined hosts</h1>';
-echo '<table>';
+echo '<table class="border">';
 echo '<thead><tr><th>Domain</th><th>PHP Version</th><th>Folder</th></tr></thead><tbody>';
 foreach ($dominios as $dominio){
     $url = 'http://'.$dominio['domain'];
     if($port && $port!= 80){
         $url .= ':'.$port;
     }
-    echo '<tr><td><a href="'.$url.'">'.$url.'</a></td><td>'.$dominio['php'].'</td><td>'.$dominio['folder'].'</td></tr>';
+    echo '<tr><td><a href="'.$url.'">'.$url.'</a></td><td><a href="'.$url.'/phpinfo">'.$dominio['php'].'</a></td><td>'.$dominio['folder'].'</td></tr>';
 }
 echo '';
+echo '</tbody></table>';
+echo '<h1 style="text-align: center; padding: 15px">win-apache-php configuration</h1>';
+echo '<table class="border">';
+echo '<thead><tr><th>Configuration</th><th>Value</th></tr></thead><tbody>';
+echo '<tr><td>WAP_SERVER</td><td>'.getenv('WAP_SERVER').'</td></tr>';
+echo '<tr><td>WAP_DOCUMENT_ROOT</td><td>'.getenv('WAP_DOCUMENT_ROOT').'</td></tr>';
 echo '</tbody></table>';
 echo '</body>';
 echo '</html>';

@@ -12,6 +12,7 @@ set PATH=%PATH:php-8.0-Win32-vs16-x64=php-7.2-Win32-VC15-x64%
 set PATH=%PATH:php-8.1-Win32-vs16-x64=php-7.2-Win32-VC15-x64%
 set PATH=%PATH:php-8.2-Win32-vs16-x64=php-7.2-Win32-VC15-x64%
 set PATH=%PATH:php-8.3-Win32-vs16-x64=php-7.2-Win32-VC15-x64%
+set PATH=%PATH:php-8.4-Win32-vs16-x64=php-7.2-Win32-VC15-x64%
 goto continue
 
 :add

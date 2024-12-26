@@ -26,23 +26,26 @@ SET currentpath=%~dp0
 SET currentpath=%currentpath:~0,-1%
 cd /d %currentpath%
 
-setx /m PATH "%PATH:php-7.3-Win32-VC15-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
-set PATH=%PATH:php-7.3-Win32-VC15-x64=php-8.3-Win32-vs16-x64%
+setx /m PATH "%PATH:php-7.3-Win32-VC15-x64=php-8.4-Win32-vs17-x64%" > NUL 2> NUL
+set PATH=%PATH:php-7.3-Win32-VC15-x64=php-8.4-Win32-vs17-x64%
 
-setx /m PATH "%PATH:php-7.4-Win32-VC15-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
-set PATH=%PATH:php-7.4-Win32-VC15-x64=php-8.3-Win32-vs16-x64%
+setx /m PATH "%PATH:php-7.4-Win32-VC15-x64=php-8.4-Win32-vs17-x64%" > NUL 2> NUL
+set PATH=%PATH:php-7.4-Win32-VC15-x64=php-8.4-Win32-vs17-x64%
 
-setx /m PATH "%PATH:php-8.0-Win32-vs16-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
-set PATH=%PATH:php-8.0-Win32-vs16-x64=php-8.3-Win32-vs16-x64%
+setx /m PATH "%PATH:php-8.0-Win32-vs16-x64=php-8.4-Win32-vs17-x64%" > NUL 2> NUL
+set PATH=%PATH:php-8.0-Win32-vs16-x64=php-8.4-Win32-vs17-x64%
 
-setx /m PATH "%PATH:php-8.1-Win32-vs16-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
-set PATH=%PATH:php-8.1-Win32-vs16-x64=php-8.3-Win32-vs16-x64%
+setx /m PATH "%PATH:php-8.1-Win32-vs16-x64=php-8.4-Win32-vs17-x64%" > NUL 2> NUL
+set PATH=%PATH:php-8.1-Win32-vs16-x64=php-8.4-Win32-vs17-x64%
 
-setx /m PATH "%PATH:php-8.2-Win32-vs16-x64=php-8.3-Win32-vs16-x64%" > NUL 2> NUL
-set PATH=%PATH:php-8.2-Win32-vs16-x64=php-8.3-Win32-vs16-x64%
+setx /m PATH "%PATH:php-8.2-Win32-vs16-x64=php-8.4-Win32-vs17-x64%" > NUL 2> NUL
+set PATH=%PATH:php-8.2-Win32-vs16-x64=php-8.4-Win32-vs17-x64%
+
+setx /m PATH "%PATH:php-8.3-Win32-vs16-x64=php-8.4-Win32-vs17-x64%" > NUL 2> NUL
+set PATH=%PATH:php-8.3-Win32-vs16-x64=php-8.4-Win32-vs17-x64%
 
 
-FOR %%G IN (php53 php54 php55 php56 php70 php71 php72 php73 php74 php80 php81 php82 php83) DO (
+FOR %%G IN (php53 php54 php55 php56 php70 php71 php72 php73 php74 php80 php81 php82 php83 php84) DO (
 	findstr "%%G" C:\Windows\System32\drivers\etc\hosts > NUL || (
 		(echo. & echo 127.0.0.1 %%G) >> C:\Windows\System32\drivers\etc\hosts
 	)

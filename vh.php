@@ -2,6 +2,7 @@
 $file = "C:\\Windows\\System32\\drivers\\etc\\hosts";
 $conf_folder = __DIR__.'\Apache-2.4-win64\conf\configs';
 $hosts_lines = file($file, FILE_IGNORE_NEW_LINES);
+$php_default = 'php84';
 $php_folders = [
     'php53' => 'php-5.3-Win32-VC9-x64',
     'php54' => 'php-5.4-Win32-VC9-x64',
@@ -16,6 +17,7 @@ $php_folders = [
     'php81' => 'php-8.1-Win32-vs16-x64',
     'php82' => 'php-8.2-Win32-vs16-x64',
     'php83' => 'php-8.3-Win32-vs16-x64',
+    'php84' => 'php-8.4-Win32-vs17-x64',
 ];
 
 function show_usage()
@@ -26,11 +28,11 @@ This utility creates virtualhosts in apache and add the domain in 'hosts' file.
 usage:
     - vh show <domain> <folder> <php>
         Shows the configuration that will be generated for the virtualhost. The
-        'php' parameter is optional but can be from 'php53' to 'php83'.
+        'php' parameter is optional but can be from 'php53' to 'php84'.
 
     - vh add <domain> <folder> <php>
         Add a <domain> with it's virtual host in <folder>. The
-        'php' parameter is optional but can be from 'php53' to 'php83'.
+        'php' parameter is optional but can be from 'php53' to 'php84'.
 
     - vh remove <domain>
         Removes a <domain> and it's virtual host
@@ -45,7 +47,7 @@ usage:
 
 function generate_conf($domain, $folder, $php)
 {
-    global $php_folders;
+    global $php_folders, $php_default;
     $lines = [];
     $lines[] = "<VirtualHost *:\${WAP_PORT}>";
     $lines[] = "\tServerName $domain";
@@ -61,7 +63,7 @@ function generate_conf($domain, $folder, $php)
         $lines[] = "\t</Directory>";
     }
 
-    if($php && $php != 'php83') {
+    if($php && $php != $php_default) {
         if(isset($php_folders[$php])) {
             $lines[] = "\t<FilesMatch \.php$>";
             $lines[] = "\t\tAddHandler fcgid-script .php";
@@ -93,7 +95,7 @@ function generate_conf($domain, $folder, $php)
             $lines[] = "\t\tRequire all granted";
             $lines[] = "\t</Directory>";
         }
-        if($php && $php != 'php83') {
+        if($php && $php != $php_default) {
             if(isset($php_folders[$php])) {
                 $lines[] = "\t<FilesMatch \.php$>";
                 $lines[] = "\t\tAddHandler fcgid-script .php";
@@ -116,7 +118,7 @@ function restart_apache()
 
 function read_domains()
 {
-    global $php_folders, $conf_folder, $hosts_lines;
+    global $php_folders, $conf_folder, $hosts_lines, $php_default;
     $dominios = [];
 
     foreach($hosts_lines as $number => $line){
@@ -126,7 +128,7 @@ function read_domains()
             }else{
                 $dominios[$matches[1]] = [
                     'domain' => $matches[1],
-                    'php' => 'php83',
+                    'php' => $php_default,
                     'folder' => '',
                 ];
             }
@@ -167,12 +169,12 @@ if(count($argv) < 2){
 }else if($argv[1]=='show' and (count($argv)==4 || count($argv)==5)){
     $domain = $argv[2];
     $folder = $argv[3];
-    $php = count($argv)==5 ? $argv[4] : 'php83';
+    $php = count($argv)==5 ? $argv[4] : $php_default;
     print(generate_conf($domain, $folder, $php));
 }else if($argv[1]=='add'  and (count($argv)==4 || count($argv)==5)){
     $domain = $argv[2];
     $folder = $argv[3];
-    $php = count($argv)==5 ? $argv[4] : 'php83';
+    $php = count($argv)==5 ? $argv[4] : $php_default;
     $conf_file = $conf_folder.'/'.$domain.'.conf';
     file_put_contents($conf_file, generate_conf($domain, $folder, $php));
 
