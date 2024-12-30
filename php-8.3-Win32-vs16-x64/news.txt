@@ -1,6 +1,95 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-21 Nov 2024, PHP 8.3.14
+19 Dec 2024, PHP 8.3.15
+
+- Calendar:
+  . Fixed jdtogregorian overflow. (David Carlier)
+  . Fixed cal_to_jd julian_days argument overflow. (David Carlier)
+
+- COM:
+  . Fixed bug GH-16991 (Getting typeinfo of non DISPATCH variant segfaults).
+    (cmb)
+
+- Core:
+  . Fail early in *nix configuration build script. (hakre)
+  . Fixed bug GH-16727 (Opcache bad signal 139 crash in ZTS bookworm
+    (frankenphp)). (nielsdos)
+  . Fixed bug GH-16799 (Assertion failure at Zend/zend_vm_execute.h:7469).
+    (nielsdos)
+  . Fixed bug GH-16630 (UAF in lexer with encoding translation and heredocs).
+    (nielsdos)
+  . Fix is_zend_ptr() huge block comparison. (nielsdos)
+  . Fixed potential OOB read in zend_dirname() on Windows. (cmb)
+
+- Curl:
+  . Fixed bug GH-16802 (open_basedir bypass using curl extension). (nielsdos)
+  . Fix various memory leaks in curl mime handling. (nielsdos)
+
+- DOM:
+  . Fixed bug GH-16777 (Calling the constructor again on a DOM object after it
+    is in a document causes UAF). (nielsdos)
+  . Fixed bug GH-16906 (Reloading document can cause UAF in iterator).
+    (nielsdos)
+
+- FPM:
+  . Fixed GH-16432 (PHP-FPM 8.2 SIGSEGV in fpm_get_status). (Jakub Zelenka)
+
+- GD:
+  . Fixed GH-16776 (imagecreatefromstring overflow). (David Carlier)
+
+- GMP:
+  . Fixed bug GH-16890 (array_sum() with GMP can loose precision (LLP64)).
+    (cmb)
+
+- Hash:
+  . Fixed GH-16711: Segfault in mhash(). (Girgias)
+
+- Opcache:
+  . Fixed bug GH-16770 (Tracing JIT type mismatch when returning UNDEF).
+    (nielsdos, Dmitry)
+  . Fixed bug GH-16851 (JIT_G(enabled) not set correctly on other threads).
+    (dktapps)
+  . Fixed bug GH-16902 (Set of opcache tests fail zts+aarch64). (nielsdos)
+
+- OpenSSL:
+  . Prevent unexpected array entry conversion when reading key. (nielsdos)
+  . Fix various memory leaks related to openssl exports. (nielsdos)
+  . Fix memory leak in php_openssl_pkey_from_zval(). (nielsdos)
+
+- PDO:
+  . Fixed memory leak of `setFetchMode()`. (SakiTakamachi)
+
+- Phar:
+  . Fixed bug GH-16695 (phar:// tar parser and zero-length file header blocks).
+    (nielsdos, Hans Krentel)
+
+- PHPDBG:
+  . Fixed bug GH-15208 (Segfault with breakpoint map and phpdbg_clear()).
+    (nielsdos)
+
+- SAPI:
+  . Fixed bug GH-16998 (UBSAN warning in rfc1867). (nielsdos)
+
+- SimpleXML:
+  . Fixed bug GH-16808 (Segmentation fault in RecursiveIteratorIterator
+    ->current() with a xml element input). (nielsdos)
+
+- SOAP:
+  . Fix make check being invoked in ext/soap. (Ma27)
+
+- Standard:
+  . Fixed bug GH-16905 (Internal iterator functions can't handle UNDEF
+    properties). (nielsdos)
+  . Fixed bug GH-16957 (Assertion failure in array_shift with
+    self-referencing array). (nielsdos)
+
+- Streams:
+  . Fixed network connect poll interuption handling. (Jakub Zelenka)
+
+- Windows:
+  . Fixed bug GH-16849 (Error dialog causes process to hang). (cmb)
+
+07 Nov 2024, PHP 8.3.14RC1
 
 - CLI:
   . Fixed bug GH-16373 (Shebang is not skipped for router script in cli-server
@@ -22,6 +111,8 @@ PHP                                                                        NEWS
   . Fixed bug GH-16508 (Incorrect line number in inheritance errors of delayed
     early bound classes). (ilutov)
   . Fixed bug GH-16648 (Use-after-free during array sorting). (ilutov)
+  . Fixed bug GH-15915 (overflow with a high value for precision INI).
+    (David Carlier / cmb)
 
 - Curl:
   . Fixed bug GH-16302 (CurlMultiHandle holds a reference to CurlHandle if
