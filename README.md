@@ -107,3 +107,19 @@ If you need SSL support for development purposes, just execute `certs\install.ba
 Once installed, you can check https://localhost/phpinfo
 
 ⚠️ Remember that you should not export or share `rootCA-key.pem`
+
+### Terminal Usage
+
+#### Switch PHP version in current terminal
+
+You can use `activate-*.bat` scripts to configure or change the current PHP version in your terminal. For example, to use PHP 8.4:
+```cmd
+activate-8.4.bat
+```
+
+#### Open a new terminal with a specific PHP version
+
+You can use `environment-*.bat` scripts to open a new terminal with the desired PHP version. For example, to open a terminal with PHP 8.4:
+```cmd
+environment-8.4.bat
+```
