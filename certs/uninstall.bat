@@ -23,7 +23,7 @@ IF %ERRORLEVEL% EQU 0 (
 )
 
 
-@net stop Apache2.4
+@net stop win-apache-php
 @echo.
 @echo.
 
@@ -39,7 +39,7 @@ SET CAROOT=%currentpath%
 @del win-apache-php*.pem
 @del ..\Apache-2.4-win64\conf\configs\httpd-ssl.conf
 
-@net start Apache2.4
+@net start win-apache-php
 @echo.
 @echo.
 
