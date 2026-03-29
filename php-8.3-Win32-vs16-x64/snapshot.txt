@@ -1,9 +1,9 @@
 This snapshot was automatically generated on
-Tue, 17 Dec 2024 19:25:27 +0000
+Tue, 13 Jan 2026 23:09:47 +0000
 
-Version: 8.3.15
+Version: 8.3.30
 Branch: HEAD
-Build: D:\a\php-ftw\php-ftw\php\vs16\x64\obj\Release_TS
+Build: C:\Users\runneradmin\AppData\Local\Temp\php-17f07cb2-a66f-4d1c-9652-1d79b9fcc310\config\vs16\x64\obj\Release_TS
 
 Built-in Extensions
 ===========================
@@ -18,13 +18,13 @@ iconv
 json
 SPL
 pcre
+random
 readline
 Reflection
 session
 standard
 mysqlnd
 tokenizer
-zip
 zlib
 libxml
 dom
@@ -40,6 +40,7 @@ sqlite3
 Phar
 mbstring
 mysqli
+zip
 
 
 Dependency information:
@@ -78,19 +79,19 @@ Module: php_ftp.dll
 
 Module: php_intl.dll
 ===========================
-	icuuc72.dll
 	icuin72.dll
 	icuio72.dll
-	vcruntime140_1.dll
-
-Module: icuuc72.dll
-===========================
-	icudt72.dll
+	icuuc72.dll
 	vcruntime140_1.dll
 
 Module: icuin72.dll
 ===========================
 	icuuc72.dll
+	vcruntime140_1.dll
+
+Module: icuuc72.dll
+===========================
+	icudt72.dll
 	vcruntime140_1.dll
 
 Module: icuio72.dll
