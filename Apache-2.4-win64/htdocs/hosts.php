@@ -2,7 +2,7 @@
 $file = "C:\\Windows\\System32\\drivers\\etc\\hosts";
 $conf_folder = dirname(__DIR__).'\conf\configs';
 $lines = file($file, FILE_IGNORE_NEW_LINES);
-$php_default = 'php84';
+$php_default = 'php85';
 $php_folders = [
     'php53' => 'php-5.3-Win32-VC9-x64',
     'php54' => 'php-5.4-Win32-VC9-x64',
@@ -18,6 +18,7 @@ $php_folders = [
     'php82' => 'php-8.2-Win32-vs16-x64',
     'php83' => 'php-8.3-Win32-vs16-x64',
     'php84' => 'php-8.4-Win32-vs17-x64',
+    'php85' => 'php-8.5-Win32-vs17-x64',
 ];
 
 $dominios = [];

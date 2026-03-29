@@ -2,7 +2,7 @@
 $file = "C:\\Windows\\System32\\drivers\\etc\\hosts";
 $conf_folder = __DIR__.'\Apache-2.4-win64\conf\configs';
 $hosts_lines = file($file, FILE_IGNORE_NEW_LINES);
-$php_default = 'php84';
+$php_default = 'php85';
 $php_folders = [
     'php53' => 'php-5.3-Win32-VC9-x64',
     'php54' => 'php-5.4-Win32-VC9-x64',
@@ -18,6 +18,7 @@ $php_folders = [
     'php82' => 'php-8.2-Win32-vs16-x64',
     'php83' => 'php-8.3-Win32-vs16-x64',
     'php84' => 'php-8.4-Win32-vs17-x64',
+    'php85' => 'php-8.5-Win32-vs17-x64',
 ];
 
 function show_usage()
@@ -28,11 +29,11 @@ This utility creates virtualhosts in apache and add the domain in 'hosts' file.
 usage:
     - vh show <domain> <folder> <php>
         Shows the configuration that will be generated for the virtualhost. The
-        'php' parameter is optional but can be from 'php53' to 'php84'.
+        'php' parameter is optional but can be from 'php53' to 'php85'.
 
     - vh add <domain> <folder> <php>
         Add a <domain> with it's virtual host in <folder>. The
-        'php' parameter is optional but can be from 'php53' to 'php84'.
+        'php' parameter is optional but can be from 'php53' to 'php85'.
 
     - vh remove <domain>
         Removes a <domain> and it's virtual host
@@ -54,6 +55,7 @@ function generate_conf($domain, $folder, $php)
     $lines[] = "\tErrorLog \"logs/$domain-error.log\"";
     $lines[] = "\tCustomLog \"logs/$domain-access.log\" common";
     $lines[] = "\tAlias /phpinfo \${WAP_SERVER}/Apache-2.4-win64/htdocs/phpinfo.php";
+    $lines[] = "\tHeader always setifempty Access-Control-Allow-Origin 'http://localhost'";
     if($folder) {
         $lines[] = "\tDocumentRoot $folder";
         $lines[] = "\t<Directory \"$folder\">";
@@ -101,6 +103,7 @@ function generate_conf($domain, $folder, $php)
                 $lines[] = "\t\tAddHandler fcgid-script .php";
                 $lines[] = "\t</FilesMatch>";
                 $lines[] = "\tFcgidWrapper \"\${WAP_SERVER}/".$php_folders[$php]."/php-cgi.exe\" .php";
+                $lines[] = "\tFcgidInitialEnv PHPRC \"\${WAP_SERVER}/".$php_folders[$php]."\"";
                 $lines[] = "\tOptions +ExecCGI";
             }else{
                 print('PHP Configuration \''.$php.'\' not found. Using PHP 8.2');
